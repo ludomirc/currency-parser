@@ -1,9 +1,9 @@
 package pl.parser.nbp;
 
 
+import pl.parser.nbp.dao.CatalogDao;
+import pl.parser.nbp.dao.impl.CatalogDaoImpl;
 import pl.parser.nbp.domain.MetaFile;
-import pl.parser.nbp.service.CatalogService;
-import pl.parser.nbp.service.impl.CatalogServiceImpl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,11 +15,11 @@ public class MainClass {
     public static void main(String[] args) {
 
 
-        CatalogService catalogService = new CatalogServiceImpl();
-
-        LocalDate start = LocalDate.parse("2000-02-01");
-        LocalDate end = LocalDate.parse("2004-02-01");
-        List<MetaFile> lsList = (List<MetaFile>) catalogService.getCatalog(start, end);
+        CatalogDao catalogDao = new CatalogDaoImpl();
+//2013-01-28 2013-01-31
+        LocalDate start = LocalDate.parse("2013-01-28");
+        LocalDate end = LocalDate.parse("2013-01-31");
+        List<MetaFile> lsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
 
         lsList.forEach(m -> System.out.println(m));
     }
