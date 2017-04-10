@@ -23,7 +23,7 @@ public class Course {
     String publicationDate;
 
     @XmlElement(name = "pozycja")
-    Collection<Currency> currency;
+    Collection<CurrencyTable> currencyTable;
 
     public Course() {
     }
@@ -60,12 +60,12 @@ public class Course {
         this.publicationDate = publicationDate;
     }
 
-    public Collection<Currency> getCurrency() {
-        return currency;
+    public Collection<CurrencyTable> getCurrencyTable() {
+        return currencyTable;
     }
 
-    public void setCurrency(Collection<Currency> currency) {
-        this.currency = currency;
+    public void setCurrencyTable(Collection<CurrencyTable> currencyTable) {
+        this.currencyTable = currencyTable;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Course {
                 ", id='" + id + '\'' +
                 ", quotationDate='" + quotationDate + '\'' +
                 ", publicationDate='" + publicationDate + '\'' +
-                ", currency=" + currency +
+                ", currencyTable=" + currencyTable +
                 '}';
     }
 }

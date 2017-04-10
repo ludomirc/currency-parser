@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.parser.nbp.domain.Course;
-import pl.parser.nbp.domain.Currency;
+import pl.parser.nbp.domain.CurrencyTable;
 import pl.parser.nbp.util.FileUtil;
 
 import javax.xml.bind.JAXBContext;
@@ -36,14 +36,14 @@ public class TestXmlParser {
             logger.info("assertNotNull eRateTable: passed");
 
 
-            Collection<Currency> currency = eRateTable.getCurrency();
-            Assert.assertNotNull(currency, messageNotNull);
-            logger.info("assertNotNull currency: passed");
+            Collection<CurrencyTable> currencyTable = eRateTable.getCurrencyTable();
+            Assert.assertNotNull(currencyTable, messageNotNull);
+            logger.info("assertNotNull currencyTable: passed");
 
             int expectedCCSize = 26;
             String message = "sould be equal";
-            Assert.assertEquals(currency.size(), expectedCCSize, message);
-            logger.info("currency.size: passed");
+            Assert.assertEquals(currencyTable.size(), expectedCCSize, message);
+            logger.info("currencyTable.size: passed");
 
         } catch (JAXBException e) {
             e.printStackTrace();

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement(name = "pozycja")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Currency {
+public class CurrencyTable {
 
     @XmlElement(name = "nazwa_kraju")
     private String country;
@@ -33,7 +33,7 @@ public class Currency {
     @XmlJavaTypeAdapter(PlNumberAdapter.class)
     private String salaryRate;
 
-    public Currency() {
+    public CurrencyTable() {
     }
 
     public String getCountry() {
@@ -86,7 +86,7 @@ public class Currency {
 
     @Override
     public String toString() {
-        return "Currency{" +
+        return "CurrencyTable{" +
 
                 "country='" + country + '\'' +
                 ", symbol='" + symbol + '\'' +

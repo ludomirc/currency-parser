@@ -17,13 +17,10 @@ public class MainClass {
 
         CatalogService catalogService = new CatalogServiceImpl();
 
-        LocalDate start = LocalDate.parse("2002-02-01");
+        LocalDate start = LocalDate.parse("2000-02-01");
         LocalDate end = LocalDate.parse("2004-02-01");
         List<MetaFile> lsList = (List<MetaFile>) catalogService.getCatalog(start, end);
 
         lsList.forEach(m -> System.out.println(m));
-
     }
-
-
 }
