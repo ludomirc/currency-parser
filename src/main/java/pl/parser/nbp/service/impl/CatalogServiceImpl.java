@@ -1,5 +1,7 @@
 package pl.parser.nbp.service.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.service.CatalogService;
 import pl.parser.nbp.util.FileUtil;
@@ -24,7 +26,7 @@ public class CatalogServiceImpl implements CatalogService {
      * c - tabela kursów kupna i sprzedaży;
      */
     public static final char BUY_SELL_TABLE = 'c';
-
+    private Logger logger = LogManager.getLogger(CatalogServiceImpl.class.getName());
 
     /**
      * @param startDate the text to  such as "2007-12-03", not null
@@ -35,7 +37,8 @@ public class CatalogServiceImpl implements CatalogService {
     public Collection<MetaFile> getCatalog(LocalDate startDate, LocalDate endDate) {
 
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
-        for (LocalDate i = LocalDate.parse(startDate.toString()); i.compareTo(endDate) == 0; i.plusYears(1)) {
+        for (LocalDate i = LocalDate.parse(startDate.toString()); i.getYear() <= endDate.getYear(); i = i.plusYears(1l)) {
+            logger.debug(i);
             metaFiles.addAll(getMetaFiles(startDate));
         }
 
