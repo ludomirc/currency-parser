@@ -41,6 +41,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     private List<MetaFile> getMetaFiles(LocalDate date) {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
+        //!todo remove hardoced server path
         URI u = URI.create("http://www.nbp.pl/kursy/xml/" + FileUtil.convertDataToDirName(date));
         try (InputStream in = u.toURL().openStream()) {
             try (Scanner inScanner = new Scanner(in)) {

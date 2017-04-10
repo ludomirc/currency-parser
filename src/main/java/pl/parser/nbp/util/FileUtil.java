@@ -2,6 +2,7 @@ package pl.parser.nbp.util;
 
 import pl.parser.nbp.domain.MetaFile;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 
 /**
@@ -53,5 +54,14 @@ public class FileUtil {
         }
         return new MetaFile(input + XML_SUFFIX, input.split("z")[1]);
     }
+
+    public static InputStream getResourceAsStream(Class clazz, String filePath) {
+        if (clazz == null || filePath == null) {
+            return null;
+        }
+
+        return clazz.getResourceAsStream(filePath);
+    }
+
 
 }
