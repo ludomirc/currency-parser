@@ -39,7 +39,7 @@ public class CatalogServiceImpl implements CatalogService {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
         for (LocalDate i = LocalDate.parse(startDate.toString()); i.getYear() <= endDate.getYear(); i = i.plusYears(1l)) {
             logger.debug(i);
-            metaFiles.addAll(getMetaFiles(startDate));
+            metaFiles.addAll(getMetaFiles(i));
         }
 
         return metaFiles;
@@ -47,8 +47,9 @@ public class CatalogServiceImpl implements CatalogService {
 
     private List<MetaFile> getMetaFiles(LocalDate date) {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
-        //!todo remove hardoced server path
+        //!todo remove hardcoded server path
         URI u = URI.create("http://www.nbp.pl/kursy/xml/" + FileUtil.convertDataToDirName(date));
+        logger.debug("URI u: " + u);
         try (InputStream in = u.toURL().openStream()) {
             try (Scanner inScanner = new Scanner(in)) {
 
