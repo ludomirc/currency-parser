@@ -1,7 +1,7 @@
 package pl.parser.nbp;
 
 
-import pl.parser.nbp.model.Course;
+import pl.parser.nbp.domain.Course;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

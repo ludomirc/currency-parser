@@ -1,17 +1,17 @@
-package pl.parser.nbp.model;
+package pl.parser.nbp.domain;
 
 /**
  * Created by Benek on 09.04.2017.
  */
-public class File {
+public class MetaFile {
 
     private String name;
     private String data;
 
-    public File() {
+    public MetaFile() {
     }
 
-    public File(String name, String data) {
+    public MetaFile(String name, String data) {
         this.name = name;
         this.data = data;
     }
@@ -34,7 +34,7 @@ public class File {
 
     @Override
     public String toString() {
-        return "File{" +
+        return "MetaFile{" +
                 "name='" + name + '\'' +
                 ", data='" + data + '\'' +
                 '}';
