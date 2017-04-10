@@ -34,7 +34,10 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public Collection<MetaFile> getCatalog(LocalDate startDate, LocalDate endDate) {
 
-        List<MetaFile> metaFiles = getMetaFiles(startDate);
+        List<MetaFile> metaFiles = new LinkedList<MetaFile>();
+        for (LocalDate i = LocalDate.parse(startDate.toString()); i.compareTo(endDate) == 0; i.plusYears(1)) {
+            metaFiles.addAll(getMetaFiles(startDate));
+        }
 
         return metaFiles;
     }
