@@ -1,5 +1,7 @@
 package pl.parser.nbp.util;
 
+import pl.parser.nbp.domain.MetaFile;
+
 import java.time.LocalDate;
 
 /**
@@ -7,8 +9,9 @@ import java.time.LocalDate;
  */
 public class FileUtil {
 
+    public static final String XML_SUFFIX = ".xml";
     private static final String DIR_PREFIX = "dir";
-    private static final String DIR_SUFFIX = ".txt";
+    private static final String TXT_DIR_SUFFIX = ".txt";
 
     private FileUtil() {
     }
@@ -35,7 +38,20 @@ public class FileUtil {
             return null;
         }
 
-        return DIR_PREFIX + date.getYear() + DIR_SUFFIX;
+        return DIR_PREFIX + date.getYear() + TXT_DIR_SUFFIX;
+    }
+
+    /**
+     * Method crate MetaFile form string line.
+     *
+     * @param input - shut be porper name of file without xml suffix
+     * @return MetaFile
+     */
+    public static MetaFile convertDataToMetaFile(String input) {
+        if (input == null) {
+            return null;
+        }
+        return new MetaFile(input + XML_SUFFIX, input.split("z")[1]);
     }
 
 }
