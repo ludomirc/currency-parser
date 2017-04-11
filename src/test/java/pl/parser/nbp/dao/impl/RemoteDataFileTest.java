@@ -24,7 +24,7 @@ public class RemoteDataFileTest {
 
         //file not exist on remote location
         LocalDate date = LocalDate.parse("1990-01-28");
-        String dirName = FileUtil.convertToFileName(date);
+        String dirName = FileUtil.toDirFileName(date);
 
         RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
 
@@ -34,7 +34,7 @@ public class RemoteDataFileTest {
 
         //file exist on server
         date = LocalDate.parse("2014-01-28");
-        dirName = FileUtil.convertToFileName(date);
+        dirName = FileUtil.toDirFileName(date);
         dataFile = new RemoteDataFile(dirName, cacheLocation);
 
         message = "File can not be null, ";

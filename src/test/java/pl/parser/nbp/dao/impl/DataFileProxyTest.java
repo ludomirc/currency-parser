@@ -24,7 +24,7 @@ public class DataFileProxyTest {
 
         //file nor exist in cache and on server
         LocalDate date = LocalDate.parse("1990-01-28");
-        String dirName = FileUtil.convertToFileName(date);
+        String dirName = FileUtil.toDirFileName(date);
 
         DataFile dataFile = new DataFileProxy(dirName, cacheLocation);
 
@@ -34,7 +34,7 @@ public class DataFileProxyTest {
 
         //file is in local cache test
         date = LocalDate.parse("2013-01-28");
-        dirName = FileUtil.convertToFileName(date);
+        dirName = FileUtil.toDirFileName(date);
         dataFile = new LocalDataFile(dirName, cacheLocation);
 
         message = "File can not be null";
@@ -43,7 +43,7 @@ public class DataFileProxyTest {
 
         //file exist on server but not is in cache, download test
         date = LocalDate.parse("2014-01-28");
-        dirName = FileUtil.convertToFileName(date);
+        dirName = FileUtil.toDirFileName(date);
         dataFile = new RemoteDataFile(dirName, cacheLocation);
 
         message = "File can not be null";

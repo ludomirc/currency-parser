@@ -34,7 +34,7 @@ public class FileUtil {
      * @param date - date
      * @return return a dir name for interesting data
      */
-    public static String convertToFileName(LocalDate date) {
+    public static String toDirFileName(LocalDate date) {
         if (date == null) {
             return null;
         }

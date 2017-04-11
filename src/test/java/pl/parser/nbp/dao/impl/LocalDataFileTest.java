@@ -23,7 +23,7 @@ public class LocalDataFileTest {
         String cacheLocation = "src/test/resources/cache/";
 
         LocalDate date = LocalDate.parse("1990-01-28");
-        String dirName = FileUtil.convertToFileName(date);
+        String dirName = FileUtil.toDirFileName(date);
 
         DataFile dataFile = new LocalDataFile(dirName, cacheLocation);
 
@@ -32,7 +32,7 @@ public class LocalDataFileTest {
         logger.info("cache is empty: passed");
 
         date = LocalDate.parse("2013-01-28");
-        dirName = FileUtil.convertToFileName(date);
+        dirName = FileUtil.toDirFileName(date);
         dataFile = new LocalDataFile(dirName, cacheLocation);
 
         message = "File can not be null";
