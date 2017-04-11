@@ -2,12 +2,14 @@ package pl.parser.nbp.dao.impl;
 
 import pl.parser.nbp.dao.DataFile;
 
+import java.io.File;
+
 /**
  * Created by Benek on 11.04.2017.
  */
 public abstract class AbstractDataFile implements DataFile {
 
-    private java.io.File localFile;
+    private File localFile;
     private String fileName;
     private String cachePath;
 
@@ -36,16 +38,16 @@ public abstract class AbstractDataFile implements DataFile {
         this.fileName = fileName;
     }
 
-    protected java.io.File getLocalFile() {
+    protected File getLocalFile() {
         return localFile;
+    }
+
+    protected void setLocalFile(File localFile) {
+        this.localFile = localFile;
     }
 
     protected void setLocalFile(AbstractDataFile localFile) {
         this.localFile = localFile.getLocalFile();
-    }
-
-    protected void setLocalFile(java.io.File localFile) {
-        this.localFile = localFile;
     }
 
     protected String getCachePath() {

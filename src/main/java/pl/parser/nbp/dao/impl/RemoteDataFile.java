@@ -47,6 +47,7 @@ public class RemoteDataFile extends AbstractDataFile {
             logger.debug("file: " + destination.toFile().getAbsolutePath() + " saved in local cache");
 
             localCopy = destination.toFile();
+            setLocalFile(localCopy);
         } catch (IOException e) {
             logger.warn(e);
         }
