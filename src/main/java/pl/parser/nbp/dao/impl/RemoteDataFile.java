@@ -18,17 +18,13 @@ import java.nio.file.StandardCopyOption;
 public class RemoteDataFile extends AbstractDataFile {
 
     String nbpUri = "http://www.nbp.pl/kursy/xml/";
-    private Logger logger = LogManager.getLogger(DataFileProxy.class.getName());
+    private Logger logger = LogManager.getLogger(RemoteDataFile.class.getName());
 
     public RemoteDataFile(String dirFileName, String cachePath) {
         super(dirFileName, cachePath);
     }
 
-    /**
-     * Method get file form server save to local storage
-     *
-     * @return return handler to local file
-     */
+
     @Override
     public File getFile() {
         logger.debug("begin");
@@ -37,24 +33,26 @@ public class RemoteDataFile extends AbstractDataFile {
 
         Path destination = null;
         URI dirUri = URI.create(fullUri);
+        File localCopy = null;
         try (InputStream in = dirUri.toURL().openStream()) {
-            try {
-                destination = Paths.get(getLocalPath());
-                Path parent = destination.getParent();
-                if (!Files.exists(parent)) {
-                    Files.createDirectory(parent);
-                }
-                Files.copy(in, destination, StandardCopyOption.REPLACE_EXISTING);
-                logger.debug("file: " + destination.toFile().getAbsolutePath() + " saved in local cache");
-            } catch (IOException e) {
-                logger.warn(e);
+
+            destination = Paths.get(getLocalPath());
+            Path parent = destination.getParent();
+
+            if (!Files.exists(parent)) {
+                Files.createDirectory(parent);
             }
+
+            Files.copy(in, destination, StandardCopyOption.REPLACE_EXISTING);
+            logger.debug("file: " + destination.toFile().getAbsolutePath() + " saved in local cache");
+
+            localCopy = destination.toFile();
         } catch (IOException e) {
             logger.warn(e);
         }
-        File file = destination.toFile();
+
         logger.debug("end");
-        return file;
+        return localCopy;
     }
 
     protected String getUri() {

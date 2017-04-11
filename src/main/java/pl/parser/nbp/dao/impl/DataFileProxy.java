@@ -25,7 +25,8 @@ public class DataFileProxy extends AbstractDataFile {
             getFileFromLocalCache();
             if (!isInLocalCache()) {
                 RemoteDataFile remoteFile = new RemoteDataFile(getFileName(), getCachePath());
-                setLocalFile(remoteFile.getFile());
+                File rFile = remoteFile.getFile();
+                setLocalFile(rFile);
             }
         }
 

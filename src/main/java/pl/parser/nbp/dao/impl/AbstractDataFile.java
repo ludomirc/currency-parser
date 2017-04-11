@@ -25,7 +25,7 @@ public abstract class AbstractDataFile implements DataFile {
     }
 
     protected boolean isInLocalCache() {
-        return localFile != null && localFile.exists();
+        return localFile != null && localFile.isFile();
     }
 
     protected String getFileName() {
@@ -40,12 +40,12 @@ public abstract class AbstractDataFile implements DataFile {
         return localFile;
     }
 
-    protected void setLocalFile(java.io.File localFile) {
-        this.localFile = localFile;
-    }
-
     protected void setLocalFile(AbstractDataFile localFile) {
         this.localFile = localFile.getLocalFile();
+    }
+
+    protected void setLocalFile(java.io.File localFile) {
+        this.localFile = localFile;
     }
 
     protected String getCachePath() {
