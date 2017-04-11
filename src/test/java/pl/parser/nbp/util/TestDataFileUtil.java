@@ -10,7 +10,7 @@ import static org.testng.Assert.assertNull;
 /**
  * Created by Benek on 09.04.2017.
  */
-public class TestFileUtil {
+public class TestDataFileUtil {
 
     @Test
     void convertDataToCatalogName() {

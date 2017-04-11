@@ -39,16 +39,19 @@ public class CatalogDaoImpl implements CatalogDao {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
         for (LocalDate i = LocalDate.parse(startDate.toString()); i.getYear() <= endDate.getYear(); i = i.plusYears(1l)) {
             logger.debug(i);
-            metaFiles.addAll(getMetaFiles(i));
+            metaFiles.addAll(loadMetaFiles(i));
         }
 
         return metaFiles;
     }
 
-    private List<MetaFile> getMetaFiles(LocalDate date) {
+    private List<MetaFile> loadMetaFiles(LocalDate date) {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
         //!todo remove hardcoded server path
+
         URI u = URI.create("http://www.nbp.pl/kursy/xml/" + FileUtil.convertDataToDirName(date));
+
+
         logger.debug("URI u: " + u);
         try (InputStream in = u.toURL().openStream()) {
             try (Scanner inScanner = new Scanner(in)) {
