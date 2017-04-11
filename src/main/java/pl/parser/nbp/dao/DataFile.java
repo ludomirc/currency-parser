@@ -1,4 +1,4 @@
-package pl.parser.nbp.dao.impl;
+package pl.parser.nbp.dao;
 
 import java.io.File;
 

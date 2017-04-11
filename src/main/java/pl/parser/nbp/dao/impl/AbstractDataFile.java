@@ -1,5 +1,7 @@
 package pl.parser.nbp.dao.impl;
 
+import pl.parser.nbp.dao.DataFile;
+
 /**
  * Created by Benek on 11.04.2017.
  */
@@ -38,12 +40,12 @@ public abstract class AbstractDataFile implements DataFile {
         return localFile;
     }
 
-    protected void setLocalFile(AbstractDataFile localFile) {
-        this.localFile = localFile.getLocalFile();
-    }
-
     protected void setLocalFile(java.io.File localFile) {
         this.localFile = localFile;
+    }
+
+    protected void setLocalFile(AbstractDataFile localFile) {
+        this.localFile = localFile.getLocalFile();
     }
 
     protected String getCachePath() {
