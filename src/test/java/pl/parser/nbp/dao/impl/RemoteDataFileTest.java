@@ -28,7 +28,7 @@ public class RemoteDataFileTest {
 
         RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
 
-        String message = "should be null";
+        String message = "should be null, ";
         Assert.assertNull(dataFile.getFile(), message);
         logger.info("file not exist on server: passed");
 
@@ -37,11 +37,11 @@ public class RemoteDataFileTest {
         dirName = FileUtil.convertToFileName(date);
         dataFile = new RemoteDataFile(dirName, cacheLocation);
 
-        message = "File can not be null";
+        message = "File can not be null, ";
         Assert.assertNotNull(dataFile.getFile(), message);
         logger.info("file in cache: passed");
 
-        //clear after test
+        //clean after test
         dataFile.getFile().delete();
 
         logger.info("end");
