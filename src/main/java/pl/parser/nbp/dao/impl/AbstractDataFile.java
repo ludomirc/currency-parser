@@ -42,12 +42,12 @@ public abstract class AbstractDataFile implements DataFile {
         return localFile;
     }
 
-    protected void setLocalFile(File localFile) {
-        this.localFile = localFile;
-    }
-
     protected void setLocalFile(AbstractDataFile localFile) {
         this.localFile = localFile.getLocalFile();
+    }
+
+    protected void setLocalFile(File localFile) {
+        this.localFile = localFile;
     }
 
     protected String getCachePath() {
@@ -58,5 +58,8 @@ public abstract class AbstractDataFile implements DataFile {
         this.cachePath = cachePath;
     }
 
-
+    @Override
+    public boolean isExist() {
+        return localFile != null && localFile.exists();
+    }
 }

@@ -1,5 +1,7 @@
 package pl.parser.nbp.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.parser.nbp.domain.MetaFile;
 
 import java.io.InputStream;
@@ -13,6 +15,7 @@ public class FileUtil {
     public static final String XML_SUFFIX = ".xml";
     private static final String DIR_PREFIX = "dir";
     private static final String TXT_DIR_SUFFIX = ".txt";
+    private static Logger logger = LogManager.getLogger(FileUtil.class.getName());
 
     private FileUtil() {
     }
@@ -45,14 +48,28 @@ public class FileUtil {
     /**
      * Method crate MetaFile form string line.
      *
-     * @param input - shut be porper name of file without xml suffix
+     * @param input - shut be popper e..g h003z130104 name of file without xml suffix
+     *              for more information look into NBP doc
      * @return MetaFile
      */
-    public static MetaFile convertDataToMetaFile(String input) {
+    public static MetaFile toMetaFile(String input) {
         if (input == null) {
             return null;
         }
-        return new MetaFile(input + XML_SUFFIX, input.split("z")[1]);
+        String fileName = null;
+        LocalDate localDate = null;
+        try {
+            fileName = input + XML_SUFFIX;
+            String datePart = input.split("z")[1];
+            String date = "20" + datePart.substring(0, 2) + "-" + datePart.substring(2, 4) + "-" + datePart.substring(4, 6);
+            localDate = LocalDate.parse(date);
+
+        } catch (Exception ex) {
+            logger.error(ex);
+            throw ex;
+        }
+
+        return new MetaFile(fileName, localDate);
     }
 
     public static InputStream getResourceAsStream(Class clazz, String filePath) {

@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import pl.parser.nbp.dao.CatalogDao;
 import pl.parser.nbp.dao.impl.CatalogDaoImpl;
 import pl.parser.nbp.domain.MetaFile;
+import pl.parser.nbp.exception.DirectoryNotFoundException;
 import pl.parser.nbp.util.FileUtil;
 
 import java.time.LocalDate;
@@ -34,7 +35,12 @@ public class TestCatalogDao {
         CatalogDao catalogDao = new CatalogDaoImpl();
         LocalDate start = LocalDate.parse("2002-02-01");
         LocalDate end = LocalDate.parse("2002-02-01");
-        List<MetaFile> actualLsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
+        List<MetaFile> actualLsList = null;
+        try {
+            actualLsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
+        } catch (DirectoryNotFoundException e) {
+            e.printStackTrace();
+        }
 
         String message = "should be equal";
         assertEquals(actualLsList.size(), expectedFileNameList.size(), message);

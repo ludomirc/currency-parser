@@ -1,20 +1,21 @@
 package pl.parser.nbp.domain;
 
+import java.time.LocalDate;
+
 /**
  * Created by Benek on 09.04.2017.
  */
 public class MetaFile {
 
     private String name;
-    private String data;
+    private LocalDate data;
 
-    public MetaFile() {
+    public MetaFile(String fileName, LocalDate date) {
+        this.name = fileName;
+        this.data = date;
     }
 
-    public MetaFile(String name, String data) {
-        this.name = name;
-        this.data = data;
-    }
+
 
     public String getName() {
         return name;
@@ -24,11 +25,11 @@ public class MetaFile {
         this.name = name;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
