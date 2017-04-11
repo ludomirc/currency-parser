@@ -16,7 +16,7 @@ public class MainClass {
 //        MonetaryAmount amount = Monetary.getDefaultAmountFactory().setCurrency("PLN").setNumber(10).create();
 
         LocalDate date = LocalDate.parse("2020-01-28");
-        String dirName = FileUtil.convertDataToDirName(date);
+        String dirName = FileUtil.convertToFileName(date);
         String fullUri = "http://www.nbp.pl/kursy/xml/" + dirName;
 
         System.out.println(fullUri);

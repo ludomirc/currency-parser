@@ -49,7 +49,7 @@ public class CatalogDaoImpl implements CatalogDao {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
         //!todo remove hardcoded server path
 
-        URI u = URI.create("http://www.nbp.pl/kursy/xml/" + FileUtil.convertDataToDirName(date));
+        URI u = URI.create("http://www.nbp.pl/kursy/xml/" + FileUtil.convertToFileName(date));
 
 
         logger.debug("URI u: " + u);

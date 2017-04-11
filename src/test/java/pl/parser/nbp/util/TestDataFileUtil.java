@@ -15,14 +15,14 @@ public class TestDataFileUtil {
     @Test
     void convertDataToCatalogName() {
 
-        String actualDirName = FileUtil.convertDataToDirName(LocalDate.parse("2010-01-01"));
+        String actualDirName = FileUtil.convertToFileName(LocalDate.parse("2010-01-01"));
         String expectedDirName = "dir2010.txt";
 
         String message = "should be equals";
         assertEquals(actualDirName, expectedDirName, message);
         System.out.println(actualDirName);
 
-        actualDirName = FileUtil.convertDataToDirName(null);
+        actualDirName = FileUtil.convertToFileName(null);
         message = "should be null";
 
         assertNull(actualDirName, message);
