@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 public class RemoteDataFileTest {
 
-    private Logger logger = LogManager.getLogger(RemoteDataFileTest.class.getName());
+    private final Logger logger = LogManager.getLogger(RemoteDataFileTest.class.getName());
 
     @Test
     public void testGetFile() throws Exception {

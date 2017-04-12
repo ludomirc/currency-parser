@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 public class TestXmlParser {
 
-    private Logger logger = LogManager.getLogger(TestXmlParser.class.getName());
+    private final Logger logger = LogManager.getLogger(TestXmlParser.class.getName());
 
     @Test
     public void parseXml() {

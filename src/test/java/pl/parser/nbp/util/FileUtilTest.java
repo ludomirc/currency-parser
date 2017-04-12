@@ -15,7 +15,7 @@ import static org.testng.Assert.assertNull;
  */
 public class FileUtilTest {
 
-    private Logger logger = LogManager.getLogger(FileUtilTest.class.getName());
+    private final Logger logger = LogManager.getLogger(FileUtilTest.class.getName());
 
     @Test
     public void testToDirFileName() throws Exception {

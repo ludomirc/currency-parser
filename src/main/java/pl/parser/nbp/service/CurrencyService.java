@@ -9,9 +9,9 @@ import java.time.LocalDate;
  */
 public interface CurrencyService extends Serializable {
 
-    MonetaryAmount averagePurchaseRate(LocalDate begin, LocalDate end);
+    MonetaryAmount averagePurchaseRate(LocalDate begin, LocalDate end, String currency);
 
-    MonetaryAmount averageSalesRates(LocalDate begin, LocalDate end);
+    MonetaryAmount averageSalesRates(LocalDate begin, LocalDate end, String currency);
 
-    MonetaryAmount standardDeviationSalesRates(LocalDate begin, LocalDate end);
+    MonetaryAmount standardDeviationSalesRates(LocalDate begin, LocalDate end, String currency);
 }

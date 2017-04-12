@@ -10,7 +10,7 @@ import java.io.File;
  */
 public class LocalDataFile extends AbstractDataFile {
 
-    private Logger logger = LogManager.getLogger(LocalDataFile.class.getName());
+    private final Logger logger = LogManager.getLogger(LocalDataFile.class.getName());
 
     public LocalDataFile(String dirFileName, String cachePath) {
         super(dirFileName, cachePath);

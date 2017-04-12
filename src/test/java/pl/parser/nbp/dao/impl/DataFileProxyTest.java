@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class DataFileProxyTest {
 
-    private Logger logger = LogManager.getLogger(DataFileProxyTest.class.getName());
+    private final Logger logger = LogManager.getLogger(DataFileProxyTest.class.getName());
 
     @Test
     public void testGetFile() throws Exception {

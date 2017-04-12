@@ -34,10 +34,9 @@ public class DataFileProxy extends AbstractDataFile {
         return getLocalFile();
     }
 
-    private LocalDataFile getFileFromLocalCache() {
+    private void getFileFromLocalCache() {
         LocalDataFile localDFile = new LocalDataFile(getFileName(), getCachePath());
         setLocalFile(localDFile.getFile());
-        return localDFile;
     }
 
 

@@ -33,7 +33,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
      * c - tabela kursów kupna i sprzedaży;
      */
     public static final char BUY_SELL_TABLE = 'c';
-    private Logger logger = LogManager.getLogger(ExchangeRateDaoImpl.class.getName());
+    private final Logger logger = LogManager.getLogger(ExchangeRateDaoImpl.class.getName());
 
     @Override
     public Collection<CurrencyEntry> getExchangeRate(LocalDate from, LocalDate to, String currency) throws AppException {
@@ -103,7 +103,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
 
         DataFileProxy dirProxy = null;
         List<File> catalogList = new LinkedList<File>();
-        for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1l)) {
+        for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1L)) {
             dirProxy = new DataFileProxy(FileUtil.toDirFileName(dirDate), cache);
             File dir = dirProxy.getFile();
             catalogList.add(dir);

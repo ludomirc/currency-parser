@@ -12,10 +12,10 @@ import java.time.LocalDate;
  */
 public class FileUtil {
 
-    public static final String XML_SUFFIX = ".xml";
+    private static final String XML_SUFFIX = ".xml";
     private static final String DIR_PREFIX = "dir";
     private static final String TXT_DIR_SUFFIX = ".txt";
-    private static Logger logger = LogManager.getLogger(FileUtil.class.getName());
+    private static final Logger logger = LogManager.getLogger(FileUtil.class.getName());
 
     private FileUtil() {
     }

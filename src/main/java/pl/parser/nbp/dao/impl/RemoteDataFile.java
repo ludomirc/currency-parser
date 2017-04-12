@@ -18,11 +18,11 @@ import java.nio.file.StandardCopyOption;
 public class RemoteDataFile extends AbstractDataFile {
 
 
+    private final Logger logger = LogManager.getLogger(RemoteDataFile.class.getName());
     /**
      * !todo - remove to configuration file or factory
      */
     String nbpUri = "http://www.nbp.pl/kursy/xml/";
-    private Logger logger = LogManager.getLogger(RemoteDataFile.class.getName());
 
     public RemoteDataFile(String dirFileName, String cachePath) {
         super(dirFileName, cachePath);

@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
 
-    static private Logger logger = LogManager.getLogger(ExchangeRateDaoImplTest.class.getName());
+    static private final Logger logger = LogManager.getLogger(ExchangeRateDaoImplTest.class.getName());
 
     LocalDate start = LocalDate.parse("2013-01-28");
     LocalDate end = LocalDate.parse("2013-01-31");
@@ -58,11 +58,10 @@ public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
             logger.error(ex);
             throw ex;
         }
-        ;
 
 
         catalogs.forEach(catalog -> {
-            Collection<File> dataFile = rateDao.getDataFiles(catalog, start, end, 'c');
+            Collection<File> dataFile = rateDao.getDataFilesByTableType(catalog, start, end, 'c');
             dataFile.forEach(dFile -> {
                 Assert.assertTrue(expectedFileName.contains(dFile.getName()));
             });

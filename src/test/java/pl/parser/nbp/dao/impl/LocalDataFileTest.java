@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class LocalDataFileTest {
 
-    private Logger logger = LogManager.getLogger(LocalDataFileTest.class.getName());
+    private final Logger logger = LogManager.getLogger(LocalDataFileTest.class.getName());
 
     @Test
     public void testGetFile() throws Exception {
