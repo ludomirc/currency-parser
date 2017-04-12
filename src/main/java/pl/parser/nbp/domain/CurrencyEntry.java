@@ -28,7 +28,7 @@ public class CurrencyEntry {
 
     @XmlElement(name = "kurs_sprzedazy")
     @XmlJavaTypeAdapter(PlNumberAdapter.class)
-    private String salaryRate;
+    private String saleRate;
 
     public CurrencyEntry() {
     }
@@ -65,12 +65,12 @@ public class CurrencyEntry {
         this.buyingRate = buyingRate;
     }
 
-    public String getSalaryRate() {
-        return salaryRate;
+    public String getSaleRate() {
+        return saleRate;
     }
 
-    public void setSalaryRate(String salaryRate) {
-        this.salaryRate = salaryRate;
+    public void setSaleRate(String saleRate) {
+        this.saleRate = saleRate;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CurrencyEntry {
                 ", converter=" + converter +
                 ", code='" + code + '\'' +
                 ", buyingRate=" + buyingRate +
-                ", salaryRate=" + salaryRate +
+                ", saleRate=" + saleRate +
                 '}';
     }
 }

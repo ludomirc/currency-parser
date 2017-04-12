@@ -3,13 +3,14 @@ package pl.parser.nbp;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.javamoney.moneta.Money;
 import org.javamoney.moneta.format.CurrencyStyle;
 import pl.parser.nbp.dao.impl.ExchangeRateDaoImpl;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.exception.AppException;
 import pl.parser.nbp.util.MarketUtil;
 
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 import javax.money.format.AmountFormatQueryBuilder;
 import javax.money.format.MonetaryAmountFormat;
@@ -40,14 +41,12 @@ public class MainClass {
 
         Collection<CurrencyEntry> cEntries = exchangeRateDao.getExchangeRate(start, end, "EUR");
 
-        //variance
-        MonetaryAmount s2 = null;
 
         //arithmetic average
-        MonetaryAmount xBuyingRate = Money.of(0, "PLN");
+        MonetaryAmount xBuyingRate = null;
 
-
-        xBuyingRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.BUY, "PLN");
+        CurrencyUnit plnUnit = Monetary.getCurrency("PLN");
+        xBuyingRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.BUY, plnUnit);
 
         MonetaryAmountFormat customFormat = MonetaryFormats.getAmountFormat(
                 AmountFormatQueryBuilder.of(new Locale("pl"))
@@ -55,9 +54,11 @@ public class MainClass {
                         .set("pattern", "0.0000")
                         .build());
 
+        MonetaryAmount xSaleRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.SALE, plnUnit);
+        MonetaryAmount s = MarketUtil.getStandardDeviation(cEntries, xSaleRate, MarketUtil.OperationType.SALE);
+
         System.out.println("Srednia arytmetyczna x: " + customFormat.format(xBuyingRate) + " " + xBuyingRate.getNumber());
-
-
+        System.out.println("odchylenie standardowe s: " + customFormat.format(s) + " " + s.getNumber());
     }
 
 
