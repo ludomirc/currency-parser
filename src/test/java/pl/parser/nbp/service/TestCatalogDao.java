@@ -1,5 +1,7 @@
 package pl.parser.nbp.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 import pl.parser.nbp.dao.CatalogDao;
 import pl.parser.nbp.dao.impl.CatalogDaoImpl;
@@ -20,10 +22,12 @@ import static org.testng.Assert.assertEquals;
  */
 public class TestCatalogDao {
 
+    static private Logger logger = LogManager.getLogger(TestCatalogDao.class.getName());
 
     @Test
     public static void getOneYearCatalog() {
 
+        logger.info("begin");
         List<String> expectedFileNameList = new LinkedList<String>();
 
         try (Scanner expectedIn = new Scanner(FileUtil.getResourceAsStream(TestCatalogDao.class, "/pl/parser/nbp/expected_dir2002.txt"))) {
@@ -33,8 +37,9 @@ public class TestCatalogDao {
         }
 
         CatalogDao catalogDao = new CatalogDaoImpl();
-        LocalDate start = LocalDate.parse("2002-02-01");
-        LocalDate end = LocalDate.parse("2002-02-01");
+
+        LocalDate start = LocalDate.parse("2002-01-02");
+        LocalDate end = LocalDate.parse("2002-12-31");
         List<MetaFile> actualLsList = null;
         try {
             actualLsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
@@ -44,6 +49,7 @@ public class TestCatalogDao {
 
         String message = "should be equal";
         assertEquals(actualLsList.size(), expectedFileNameList.size(), message);
+        logger.info("MetaFle list size test: passed");
 
         ListIterator<String> expectedItr = expectedFileNameList.listIterator();
         ListIterator<MetaFile> actualItr = actualLsList.listIterator();
@@ -51,7 +57,9 @@ public class TestCatalogDao {
         while (actualItr.hasNext()) {
             assertEquals(actualItr.next().getName(), expectedItr.next(), message);
         }
+        logger.info("MetaFle contents of list test: passed");
 
+        logger.info("end");
     }
 
 
