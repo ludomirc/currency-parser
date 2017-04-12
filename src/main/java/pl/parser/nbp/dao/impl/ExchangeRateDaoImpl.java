@@ -3,11 +3,15 @@ package pl.parser.nbp.dao.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.parser.nbp.dao.ExchangeRateDao;
+import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.AppException;
 import pl.parser.nbp.util.FileUtil;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,16 +40,64 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         logger.debug("begin");
 
         Collection<File> catalogList = getCatalogs(from, to);
-        for (File dir : catalogList) {
-            Collection<File> dataFileList = getDataFiles(dir, from, to, BUY_SELL_TABLE);
+
+        //filter file by range and table type
+        Collection<File> dataFileList = null;
+        for (File elDir : catalogList) {
+            dataFileList = getDataFilesByTableType(elDir, from, to, BUY_SELL_TABLE);
+
+        }
+
+        Collection<CurrencyCourseTable> cRateTables = getCurrencyCourseTables(dataFileList);
+
+        //filter by currency code
+        Collection<CurrencyEntry> currencyEntries = new LinkedList<CurrencyEntry>();
+        for (CurrencyCourseTable elRateTable : cRateTables) {
+
+            Collection<CurrencyEntry> cEntryList = elRateTable.getCurrencyEntry();
+            for (CurrencyEntry elCurrency : cEntryList) {
+                if (elCurrency.getCode().compareTo(currency) == 0) {
+                    currencyEntries.add(elCurrency);
+                }
+            }
         }
 
         logger.debug("end");
-        return null;
+        return currencyEntries;
     }
+
+    protected Collection<CurrencyCourseTable> getCurrencyCourseTables(Collection<File> dataFileList) {
+        logger.debug("begin");
+
+        JAXBContext jaxbContext = null;
+        Unmarshaller jaxbUnmarshaller = null;
+        try {
+            jaxbContext = JAXBContext.newInstance(CurrencyCourseTable.class);
+            jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+        Collection<CurrencyCourseTable> eRateTables = new LinkedList<CurrencyCourseTable>();
+        for (File elFile : dataFileList) {
+
+            try {
+                CurrencyCourseTable eRateTable = (CurrencyCourseTable) jaxbUnmarshaller.unmarshal(elFile);
+                eRateTables.add(eRateTable);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+
+        }
+        logger.debug("end");
+
+        return eRateTables;
+    }
+
 
     protected Collection<File> getCatalogs(LocalDate startDate, LocalDate endDate) {
         logger.debug("begin");
+
         //!todo remove hardcoded initialization parameter, maybe mow to factory
         String cache = "cache/";
 
@@ -61,7 +113,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         return catalogList;
     }
 
-    protected Collection<File> getDataFiles(File catalog, LocalDate from, LocalDate to, char tableType) {
+    protected Collection<File> getDataFilesByTableType(File catalog, LocalDate from, LocalDate to, char tableType) {
         logger.debug("begin");
 
         //!todo remove hardcoded initialization parameter, maybe mow to factory
