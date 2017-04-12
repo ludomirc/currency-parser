@@ -22,7 +22,7 @@ public abstract class AbstractDataFile implements DataFile {
         return cachePath + fileName;
     }
 
-    protected String getLocalAbsolvePath() {
+    protected String getLocalAbsolutePath() {
         return localFile.getAbsolutePath();
     }
 
@@ -42,12 +42,12 @@ public abstract class AbstractDataFile implements DataFile {
         return localFile;
     }
 
-    protected void setLocalFile(AbstractDataFile localFile) {
-        this.localFile = localFile.getLocalFile();
-    }
-
     protected void setLocalFile(File localFile) {
         this.localFile = localFile;
+    }
+
+    protected void setLocalFile(AbstractDataFile localFile) {
+        this.localFile = localFile.getLocalFile();
     }
 
     protected String getCachePath() {
