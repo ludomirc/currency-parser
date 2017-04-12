@@ -3,12 +3,14 @@ package pl.parser.nbp.exception;
 /**
  * Created by Benek on 11.04.2017.
  */
-public class DirectoryNotFoundException extends ParserException {
+public class DirectoryNotFoundException extends AppException {
 
-    public DirectoryNotFoundException() {
-    }
 
     public DirectoryNotFoundException(String message) {
-        super(message);
+        super(ErrorCode.ErrorCode_2001, message);
+    }
+
+    public DirectoryNotFoundException() {
+        super(ErrorCode.ErrorCode_2001);
     }
 }
