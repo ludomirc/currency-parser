@@ -53,6 +53,7 @@ public class RemoteDataFile extends AbstractDataFile {
             localCopy = destination.toFile();
             setLocalFile(localCopy);
         } catch (IOException e) {
+            //!todo if file not exist throw technical exception
             logger.warn(e);
         }
 

@@ -3,8 +3,9 @@ package pl.parser.nbp.dao.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.parser.nbp.dao.ExchangeRateDao;
+import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.domain.MetaFile;
-import pl.parser.nbp.exception.DirectoryNotFoundException;
+import pl.parser.nbp.exception.AppException;
 import pl.parser.nbp.util.FileUtil;
 
 import java.io.File;
@@ -30,66 +31,74 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
     public static final char BUY_SELL_TABLE = 'c';
     private Logger logger = LogManager.getLogger(ExchangeRateDaoImpl.class.getName());
 
-    /**
-     * @param startDate the text to  such as "2007-12-03", not null
-     * @param endDate   the text to  such as "2007-12-03", not null
-     * @return
-     */
     @Override
-    public Collection<MetaFile> lsCatalog(LocalDate startDate, LocalDate endDate) throws DirectoryNotFoundException {
+    public Collection<CurrencyEntry> getExchangeRate(LocalDate from, LocalDate to, String currency) throws AppException {
         logger.debug("begin");
-        List<MetaFile> metaFiles = new LinkedList<MetaFile>();
-        for (LocalDate i = LocalDate.parse(startDate.toString()); i.getYear() <= endDate.getYear(); i = i.plusYears(1l)) {
-            logger.debug(i);
-            metaFiles.addAll(loadMetaFiles(i, startDate, endDate));
+
+        Collection<File> catalogList = getCatalogs(from, to);
+        for (File dir : catalogList) {
+            Collection<File> dataFileList = getDataFiles(dir, from, to, BUY_SELL_TABLE);
         }
 
         logger.debug("end");
-        return metaFiles;
+        return null;
     }
 
-    private List<MetaFile> loadMetaFiles(LocalDate dirDate, LocalDate startDate, LocalDate endDate) throws DirectoryNotFoundException {
-
+    protected Collection<File> getCatalogs(LocalDate startDate, LocalDate endDate) {
         logger.debug("begin");
         //!todo remove hardcoded initialization parameter, maybe mow to factory
         String cache = "cache/";
-        DataFileProxy dirProxy = new DataFileProxy(FileUtil.toDirFileName(dirDate), cache);
 
-        File dirFile = dirProxy.getFile();
-        if (!dirProxy.isExist()) {
-            throw new DirectoryNotFoundException("File " + dirProxy.getFileName() + " exist neither in local cache  nor on server");
+        DataFileProxy dirProxy = null;
+        List<File> catalogList = new LinkedList<File>();
+        for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1l)) {
+            dirProxy = new DataFileProxy(FileUtil.toDirFileName(dirDate), cache);
+            File dir = dirProxy.getFile();
+            catalogList.add(dir);
         }
 
-        List<MetaFile> metaFiles = getMetaFiles(startDate, endDate, dirFile, BUY_SELL_TABLE);
-
         logger.debug("end");
-        return metaFiles;
+        return catalogList;
     }
 
-    private List<MetaFile> getMetaFiles(LocalDate startDate, LocalDate endDate, File dirFile, char tableType) {
-        List<MetaFile> metaFiles = new LinkedList<MetaFile>();
-        logger.debug(dirFile.getAbsolutePath());
+    protected Collection<File> getDataFiles(File catalog, LocalDate from, LocalDate to, char tableType) {
+        logger.debug("begin");
 
-        try (FileInputStream fIn = new FileInputStream(dirFile)) {
+        //!todo remove hardcoded initialization parameter, maybe mow to factory
+        String cache = "cache/";
+
+        List<File> dataFiles = new LinkedList<File>();
+        DataFileProxy dFileProxy = null;
+        try (FileInputStream fIn = new FileInputStream(catalog)) {
             try (Scanner in = new Scanner(fIn)) {
+
                 String line = "";
                 MetaFile mFile = null;
+                File file = null;
                 while (in.hasNextLine()) {
+
                     line = in.nextLine();
                     if (line.charAt(0) == tableType) {
+
                         mFile = FileUtil.toMetaFile(line);
-                        if (isDataInRange(startDate, endDate, mFile.getData())) {
-                            metaFiles.add(mFile);
+                        if (isDataInRange(from, to, mFile.getData())) {
+
+                            dFileProxy = new DataFileProxy(mFile.getName(), cache);
+                            file = dFileProxy.getFile();
+                            dataFiles.add(file);
                         }
                     }
                 }
             }
         } catch (FileNotFoundException e) {
+            //!todo throw expection
             logger.warn(e);
         } catch (IOException e) {
             logger.warn(e);
         }
-        return metaFiles;
+
+        logger.debug("end");
+        return dataFiles;
     }
 
     private Boolean isDataInRange(LocalDate startDate, LocalDate endDate, LocalDate date) {
