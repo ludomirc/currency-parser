@@ -4,11 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.parser.nbp.util.FileUtil;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Benek on 12.04.2017.
@@ -50,11 +50,25 @@ public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
         ExchangeRateDaoImpl rateDao = new ExchangeRateDaoImpl();
         List<File> catalogs = (List<File>) rateDao.getCatalogs(start, end);
 
+
+        Set<String> expectedFileName = new HashSet<String>();
+        try (Scanner in = new Scanner(FileUtil.getResourceAsStream(this.getClass(), "expected_filenames_2013-01-28to31_type_c.txt"))) {
+            in.forEachRemaining(line -> expectedFileName.add(line));
+        } catch (Exception ex) {
+            logger.error(ex);
+            throw ex;
+        }
+        ;
+
+
         catalogs.forEach(catalog -> {
-            System.out.println("catalog: " + catalog);
             Collection<File> dataFile = rateDao.getDataFiles(catalog, start, end, 'c');
-            dataFile.forEach(dFile -> System.out.println(dFile));
+            dataFile.forEach(dFile -> {
+                Assert.assertTrue(expectedFileName.contains(dFile.getName()));
+            });
         });
+        logger.info("file names test: passed");
+
         logger.info("end");
     }
 
