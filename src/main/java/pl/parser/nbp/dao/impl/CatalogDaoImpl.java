@@ -51,6 +51,7 @@ public class CatalogDaoImpl implements CatalogDao {
     private List<MetaFile> loadMetaFiles(LocalDate dirDate, LocalDate startDate, LocalDate endDate) throws DirectoryNotFoundException {
 
         logger.debug("begin");
+        //!todo remove hardcoded initialization parameter, maybe mow to factory
         String cache = "cache/";
         DataFileProxy dirProxy = new DataFileProxy(FileUtil.toDirFileName(dirDate), cache);
 
@@ -59,6 +60,13 @@ public class CatalogDaoImpl implements CatalogDao {
             throw new DirectoryNotFoundException("File " + dirProxy.getFileName() + " exist neither in local cache  nor on server");
         }
 
+        List<MetaFile> metaFiles = getMetaFiles(startDate, endDate, dirFile);
+
+        logger.debug("end");
+        return metaFiles;
+    }
+
+    private List<MetaFile> getMetaFiles(LocalDate startDate, LocalDate endDate, File dirFile) {
         List<MetaFile> metaFiles = new LinkedList<MetaFile>();
         logger.debug(dirFile.getAbsolutePath());
 
@@ -77,12 +85,10 @@ public class CatalogDaoImpl implements CatalogDao {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn(e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
-
-        logger.debug("end");
         return metaFiles;
     }
 
