@@ -3,8 +3,8 @@ package pl.parser.nbp.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
-import pl.parser.nbp.dao.CatalogDao;
-import pl.parser.nbp.dao.impl.CatalogDaoImpl;
+import pl.parser.nbp.dao.ExchangeRateDao;
+import pl.parser.nbp.dao.impl.ExchangeRateDaoImpl;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.DirectoryNotFoundException;
 import pl.parser.nbp.util.FileUtil;
@@ -20,9 +20,9 @@ import static org.testng.Assert.assertEquals;
 /**
  * Created by Benek on 10.04.2017.
  */
-public class TestCatalogDao {
+public class TestExchangeRateDao {
 
-    static private Logger logger = LogManager.getLogger(TestCatalogDao.class.getName());
+    static private Logger logger = LogManager.getLogger(TestExchangeRateDao.class.getName());
 
     @Test
     public static void getOneYearCatalog() {
@@ -30,19 +30,19 @@ public class TestCatalogDao {
         logger.info("begin");
         List<String> expectedFileNameList = new LinkedList<String>();
 
-        try (Scanner expectedIn = new Scanner(FileUtil.getResourceAsStream(TestCatalogDao.class, "/pl/parser/nbp/expected_dir2002.txt"))) {
+        try (Scanner expectedIn = new Scanner(FileUtil.getResourceAsStream(TestExchangeRateDao.class, "/pl/parser/nbp/expected_dir2002.txt"))) {
             while (expectedIn.hasNextLine()) {
                 expectedFileNameList.add(expectedIn.nextLine());
             }
         }
 
-        CatalogDao catalogDao = new CatalogDaoImpl();
+        ExchangeRateDao exchangeRateDao = new ExchangeRateDaoImpl();
 
         LocalDate start = LocalDate.parse("2002-01-02");
         LocalDate end = LocalDate.parse("2002-12-31");
         List<MetaFile> actualLsList = null;
         try {
-            actualLsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
+            actualLsList = (List<MetaFile>) exchangeRateDao.lsCatalog(start, end);
         } catch (DirectoryNotFoundException e) {
             e.printStackTrace();
         }

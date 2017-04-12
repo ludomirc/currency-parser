@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pl.parser.nbp.domain.Course;
-import pl.parser.nbp.domain.CurrencyTable;
+import pl.parser.nbp.domain.CurrencyCourseTable;
+import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.util.FileUtil;
 
 import javax.xml.bind.JAXBContext;
@@ -26,24 +26,24 @@ public class TestXmlParser {
 
             logger.info("test start");
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(Course.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(CurrencyCourseTable.class);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Course eRateTable = (Course) jaxbUnmarshaller.unmarshal(FileUtil.getResourceAsStream(this.getClass(), "c001z020102.xml"));
+            CurrencyCourseTable eRateTable = (CurrencyCourseTable) jaxbUnmarshaller.unmarshal(FileUtil.getResourceAsStream(this.getClass(), "c001z020102.xml"));
 
             String messageNotNull = "can not be null";
             Assert.assertNotNull(eRateTable, messageNotNull);
             logger.info("assertNotNull eRateTable: passed");
 
 
-            Collection<CurrencyTable> currencyTable = eRateTable.getCurrencyTable();
-            Assert.assertNotNull(currencyTable, messageNotNull);
-            logger.info("assertNotNull currencyTable: passed");
+            Collection<CurrencyEntry> currencyEntry = eRateTable.getCurrencyEntry();
+            Assert.assertNotNull(currencyEntry, messageNotNull);
+            logger.info("assertNotNull currencyEntry: passed");
 
             int expectedCCSize = 26;
             String message = "sould be equal";
-            Assert.assertEquals(currencyTable.size(), expectedCCSize, message);
-            logger.info("currencyTable.size: passed");
+            Assert.assertEquals(currencyEntry.size(), expectedCCSize, message);
+            logger.info("currencyEntry.size: passed");
 
         } catch (JAXBException e) {
             e.printStackTrace();

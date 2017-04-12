@@ -1,8 +1,8 @@
 package pl.parser.nbp;
 
 
-import pl.parser.nbp.dao.CatalogDao;
-import pl.parser.nbp.dao.impl.CatalogDaoImpl;
+import pl.parser.nbp.dao.ExchangeRateDao;
+import pl.parser.nbp.dao.impl.ExchangeRateDaoImpl;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.DirectoryNotFoundException;
 
@@ -19,16 +19,15 @@ public class MainClass {
 //        MonetaryAmount amount = Monetary.getDefaultAmountFactory().setCurrency("PLN").setNumber(10).create();
 
 
+        //amount.pow 2013-01-28 2013-01-31
 
-        //amount.pow
-
-        CatalogDao catalogDao = new CatalogDaoImpl();
+        ExchangeRateDao exchangeRateDao = new ExchangeRateDaoImpl();
         //2013-01-28 2013-01-31
         LocalDate start = LocalDate.parse("2013-01-28");
         LocalDate end = LocalDate.parse("2013-01-31");
         List<MetaFile> lsList = null;
         try {
-            lsList = (List<MetaFile>) catalogDao.lsCatalog(start, end);
+            lsList = (List<MetaFile>) exchangeRateDao.lsCatalog(start, end);
         } catch (DirectoryNotFoundException e) {
             e.printStackTrace();
         }

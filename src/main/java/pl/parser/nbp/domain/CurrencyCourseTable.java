@@ -8,7 +8,7 @@ import java.util.Collection;
  */
 @XmlRootElement(name = "tabela_kursow")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Course {
+public class CurrencyCourseTable {
 
     @XmlAttribute(name = "typ")
     String type;
@@ -23,9 +23,9 @@ public class Course {
     String publicationDate;
 
     @XmlElement(name = "pozycja")
-    Collection<CurrencyTable> currencyTable;
+    Collection<CurrencyEntry> currencyEntry;
 
-    public Course() {
+    public CurrencyCourseTable() {
     }
 
     public String getType() {
@@ -60,22 +60,22 @@ public class Course {
         this.publicationDate = publicationDate;
     }
 
-    public Collection<CurrencyTable> getCurrencyTable() {
-        return currencyTable;
+    public Collection<CurrencyEntry> getCurrencyEntry() {
+        return currencyEntry;
     }
 
-    public void setCurrencyTable(Collection<CurrencyTable> currencyTable) {
-        this.currencyTable = currencyTable;
+    public void setCurrencyEntry(Collection<CurrencyEntry> currencyEntry) {
+        this.currencyEntry = currencyEntry;
     }
 
     @Override
     public String toString() {
-        return "Course{" +
+        return "CurrencyCourseTable{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
                 ", quotationDate='" + quotationDate + '\'' +
                 ", publicationDate='" + publicationDate + '\'' +
-                ", currencyTable=" + currencyTable +
+                ", currencyEntry=" + currencyEntry +
                 '}';
     }
 }

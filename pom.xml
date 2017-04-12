@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pl.parser.nbp</groupId>
-    <artifactId>currencyTable-parser</artifactId>
+    <artifactId>currencyEntry-parser</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
