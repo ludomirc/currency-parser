@@ -13,11 +13,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CurrencyEntry {
 
-    @XmlElement(name = "nazwa_kraju")
-    private String country;
-
-    @XmlElement(name = "symbol_waluty")
-    private String symbol;
+    @XmlElement(name = "nazwa_waluty")
+    private String currencyName;
 
     @XmlElement(name = "przelicznik")
     private String converter;
@@ -36,20 +33,12 @@ public class CurrencyEntry {
     public CurrencyEntry() {
     }
 
-    public String getCountry() {
-        return country;
+    public String getCurrencyName() {
+        return currencyName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
     }
 
     public String getConverter() {
@@ -88,8 +77,7 @@ public class CurrencyEntry {
     public String toString() {
         return "CurrencyEntry{" +
 
-                "country='" + country + '\'' +
-                ", symbol='" + symbol + '\'' +
+                "currencyName='" + currencyName + '\'' +
                 ", converter=" + converter +
                 ", code='" + code + '\'' +
                 ", buyingRate=" + buyingRate +
