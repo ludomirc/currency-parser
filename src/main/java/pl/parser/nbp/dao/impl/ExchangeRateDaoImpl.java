@@ -7,7 +7,6 @@ import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.AppException;
-import pl.parser.nbp.util.FileUtil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

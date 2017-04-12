@@ -1,4 +1,4 @@
-package pl.parser.nbp.util;
+package pl.parser.nbp.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

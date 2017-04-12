@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pl.parser.nbp.util.FileUtil;
+import pl.parser.nbp.TUtil;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -52,7 +52,7 @@ public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
 
 
         Set<String> expectedFileName = new HashSet<String>();
-        try (Scanner in = new Scanner(FileUtil.getResourceAsStream(this.getClass(), "expected_filenames_2013-01-28to31_type_c.txt"))) {
+        try (Scanner in = new Scanner(TUtil.getResourceAsStream(this.getClass(), "expected_filenames_2013-01-28to31_type_c.txt"))) {
             in.forEachRemaining(line -> expectedFileName.add(line));
         } catch (Exception ex) {
             logger.error(ex);

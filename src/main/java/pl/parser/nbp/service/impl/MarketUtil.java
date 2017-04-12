@@ -1,4 +1,4 @@
-package pl.parser.nbp.util;
+package pl.parser.nbp.service.impl;
 
 import org.javamoney.moneta.Money;
 import pl.parser.nbp.domain.CurrencyEntry;
@@ -12,6 +12,9 @@ import java.util.Collection;
  * Created by Benek on 12.04.2017.
  */
 public class MarketUtil {
+
+    private MarketUtil() {
+    }
 
     public static MonetaryAmount getArithmeticAverage(Collection<CurrencyEntry> entries, OperationType operationType, CurrencyUnit currencyUnit) {
         MonetaryAmount average = Money.of(BigDecimal.ZERO, currencyUnit);

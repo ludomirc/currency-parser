@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
-import pl.parser.nbp.util.FileUtil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -29,7 +28,7 @@ public class TestXmlParser {
             JAXBContext jaxbContext = JAXBContext.newInstance(CurrencyCourseTable.class);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            CurrencyCourseTable eRateTable = (CurrencyCourseTable) jaxbUnmarshaller.unmarshal(FileUtil.getResourceAsStream(this.getClass(), "c001z020102.xml"));
+            CurrencyCourseTable eRateTable = (CurrencyCourseTable) jaxbUnmarshaller.unmarshal(TUtil.getResourceAsStream(this.getClass(), "c001z020102.xml"));
 
             String messageNotNull = "can not be null";
             Assert.assertNotNull(eRateTable, messageNotNull);

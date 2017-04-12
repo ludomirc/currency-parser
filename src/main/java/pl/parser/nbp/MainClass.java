@@ -7,7 +7,7 @@ import org.javamoney.moneta.format.CurrencyStyle;
 import pl.parser.nbp.dao.impl.ExchangeRateDaoImpl;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.exception.AppException;
-import pl.parser.nbp.util.MarketUtil;
+import pl.parser.nbp.service.impl.MarketUtil;
 
 import javax.money.CurrencyUnit;
 import javax.money.Monetary;

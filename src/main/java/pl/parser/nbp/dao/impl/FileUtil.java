@@ -1,16 +1,15 @@
-package pl.parser.nbp.util;
+package pl.parser.nbp.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.parser.nbp.domain.MetaFile;
 
-import java.io.InputStream;
 import java.time.LocalDate;
 
 /**
  * Created by Benek on 09.04.2017.
  */
-public class FileUtil {
+class FileUtil {
 
     private static final String XML_SUFFIX = ".xml";
     private static final String DIR_PREFIX = "dir";
@@ -37,7 +36,7 @@ public class FileUtil {
      * @param date - date
      * @return return a dir name for interesting data
      */
-    public static String toDirFileName(LocalDate date) {
+    static String toDirFileName(LocalDate date) {
         if (date == null) {
             return null;
         }
@@ -52,7 +51,7 @@ public class FileUtil {
      *              for more information look into NBP doc
      * @return MetaFile
      */
-    public static MetaFile toMetaFile(String input) {
+    static MetaFile toMetaFile(String input) {
         if (input == null) {
             return null;
         }
@@ -71,14 +70,4 @@ public class FileUtil {
 
         return new MetaFile(fileName, localDate);
     }
-
-    public static InputStream getResourceAsStream(Class clazz, String filePath) {
-        if (clazz == null || filePath == null) {
-            return null;
-        }
-
-        return clazz.getResourceAsStream(filePath);
-    }
-
-
 }
