@@ -49,10 +49,8 @@ public class MainClass {
 
         ExchangeRateDaoImpl exchangeRateDao = new ExchangeRateDaoImpl();
         //2013-01-28 2013-01-31
-/*
         LocalDate start = LocalDate.parse("2013-01-28");
         LocalDate end = LocalDate.parse("2013-01-31");
-*/
 
         /**
          !todo brak notowanie na tą daę, dobry przykład żeby sprawdzić busines expection
@@ -62,8 +60,8 @@ public class MainClass {
          */
 
 
-        LocalDate start = LocalDate.parse("2013-01-21");
-        LocalDate end = LocalDate.parse("2013-01-21");
+     /*   LocalDate start = LocalDate.parse("2013-01-21");
+        LocalDate end = LocalDate.parse("2013-01-21");*/
 
         Collection<CurrencyEntry> cEntries = exchangeRateDao.getExchangeRate(start, end, "EUR");
 

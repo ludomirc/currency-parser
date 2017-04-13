@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.parser.nbp.exception.AppException;
+import pl.parser.nbp.exception.TechnicalException;
 
 import java.time.LocalDate;
 
@@ -21,22 +23,12 @@ public class RemoteDataFileTest {
 
         String cacheLocation = "src/test/resources/cache/";
 
-        //file not exist on remote location
-        LocalDate date = LocalDate.parse("1990-01-28");
+        //file exist on server
+        LocalDate date = LocalDate.parse("2014-01-28");
         String dirName = FileUtil.toDirFileName(date);
-
         RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
 
-        String message = "should be null, ";
-        Assert.assertNull(dataFile.getFile(), message);
-        logger.info("file not exist on server: passed");
-
-        //file exist on server
-        date = LocalDate.parse("2014-01-28");
-        dirName = FileUtil.toDirFileName(date);
-        dataFile = new RemoteDataFile(dirName, cacheLocation);
-
-        message = "File can not be null, ";
+        String message = "File can not be null, ";
         Assert.assertNotNull(dataFile.getFile(), message);
         logger.info("file in cache: passed");
 
@@ -45,6 +37,22 @@ public class RemoteDataFileTest {
 
         logger.info("end");
 
+    }
+
+    @Test(expectedExceptions = {TechnicalException.class})
+    public void throwIfOrderIsNotExists() throws AppException {
+
+        String cacheLocation = "src/test/resources/cache/";
+
+        //file not exist on remote location
+        LocalDate date = LocalDate.parse("1990-01-28");
+        String dirName = FileUtil.toDirFileName(date);
+
+        RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
+
+        dataFile.getFile();
+
+        logger.info("RemoteDataFile TechnicalException: passed");
     }
 
 }

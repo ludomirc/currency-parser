@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.parser.nbp.dao.DataFile;
+import pl.parser.nbp.exception.TechnicalException;
 
 import java.time.LocalDate;
 
@@ -27,16 +28,19 @@ public class DataFileProxyTest {
 
         DataFile dataFile = new DataFileProxy(dirName, cacheLocation);
 
-        String message = "should be null";
-        Assert.assertNull(dataFile.getFile(), message);
-        logger.info("file exist neither in local cache and on server: passed");
+        try {
+            dataFile.getFile();
+        } catch (TechnicalException txe) {
+            Assert.assertNotNull(txe);
+            logger.info("file exist neither in local cache and on server: passed");
+        }
 
         //file is in local cache test
         date = LocalDate.parse("2013-01-28");
         dirName = FileUtil.toDirFileName(date);
         dataFile = new LocalDataFile(dirName, cacheLocation);
 
-        message = "File can not be null";
+        String message = "File can not be null";
         Assert.assertNotNull(dataFile.getFile(), message);
         logger.info("file is in local cache: passed");
 

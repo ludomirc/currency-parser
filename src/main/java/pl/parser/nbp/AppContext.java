@@ -17,7 +17,7 @@ public class AppContext {
     private static Logger logger = LogManager.getLogger(AppContext.class.getName());
     private static AppContext instance = null;
     private String configFilePath = "/config";
-    private String cachePath = "/cache";
+    private String cachePath = "cache/";
     private String CurrencyProviderName = "NBP";
     private String CurrencyProviderURI = "http://www.nbp.pl/kursy/xml";
     private String[] SupportedCurrency = new String[]{"USD", "EUR", "CHF", "GBP"};
@@ -112,13 +112,13 @@ public class AppContext {
         return SupportedCurrency;
     }
 
-    public void setSupportedCurrency(String supportedCurrency) {
-        setSupportedCurrency(supportedCurrency.split(","));
-    }
-
     public void setSupportedCurrency(String[] supportedCurrency) {
         logger.info("supported currency: " + Arrays.toString(supportedCurrency));
         SupportedCurrency = supportedCurrency;
+    }
+
+    public void setSupportedCurrency(String supportedCurrency) {
+        setSupportedCurrency(supportedCurrency.split(","));
     }
 
     public String getCurrencyLocale() {
