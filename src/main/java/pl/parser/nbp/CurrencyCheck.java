@@ -1,5 +1,7 @@
 package pl.parser.nbp;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javamoney.moneta.format.CurrencyStyle;
 import pl.parser.nbp.exception.AppException;
 import pl.parser.nbp.exception.BusinessException;
@@ -23,6 +25,8 @@ import java.util.Locale;
  */
 public class CurrencyCheck {
 
+    private final Logger logger = LogManager.getLogger(CurrencyCheck.class.getName());
+
     private final int CURRENCY_CODE = 0;
     private final int START_DATE = 1;
     private final int END_DATE = 2;
@@ -38,7 +42,9 @@ public class CurrencyCheck {
     public void checkRate(String[] args) throws AppException {
 
         if (args.length != 3) {
-            throw new TechnicalException(ErrorCode.ErrorCode_2002, ": expected 3, actual:" + args.length);
+            AppException exp = new TechnicalException(ErrorCode.ErrorCode_2002, ": expected 3, actual:" + args.length);
+            logger.error(exp);
+            throw exp;
         }
 
         CurrencyUnit currency = parseCurrency(args[CURRENCY_CODE]);
@@ -53,32 +59,41 @@ public class CurrencyCheck {
 
     }
 
-    private void checkSequenceOfDates(LocalDate start, LocalDate end) throws BusinessException {
+    private void checkSequenceOfDates(LocalDate start, LocalDate end) throws AppException {
         if (start.compareTo(end) > 0) {
-            throw new BusinessException(ErrorCode.ErrorCode_3003, " first should be a start date next an end date");
+            AppException exp = new BusinessException(ErrorCode.ErrorCode_3003, " first should be a start date next an end date");
+            logger.error(exp);
+            throw exp;
         }
     }
 
+
     private LocalDate parseDate(String date) throws AppException {
-        LocalDate lDate;
+        LocalDate lDate = null;
         try {
             lDate = LocalDate.parse(date);
         } catch (DateTimeParseException ex) {
-            throw new TechnicalException(ex, ErrorCode.ErrorCode_2003, ": expected YYYY-MM-DD, actual: " + date);
+            AppException exp = new TechnicalException(ex, ErrorCode.ErrorCode_2003, ": expected YYYY-MM-DD, actual: " + date);
+            logger.error(exp);
+            throw exp;
         }
         //2002 is init year of the rate data
         if (lDate.getYear() < 2002) {
-            throw new BusinessException(ErrorCode.ErrorCode_3002, ": yest should be greater then 2001, actual: " + date);
+            AppException exp = new BusinessException(ErrorCode.ErrorCode_3002, ": yest should be greater then 2001, actual: " + date);
+            logger.error(exp);
+            throw exp;
         }
 
         if (lDate.compareTo(LocalDate.now()) > 0) {
-            throw new BusinessException(ErrorCode.ErrorCode_3004, " input date is in future: " + date);
+            AppException exp = new BusinessException(ErrorCode.ErrorCode_3004, " input date is in future: " + date);
+            logger.error(exp);
+            throw exp;
         }
 
         return lDate;
     }
 
-    private CurrencyUnit parseCurrency(String currency) throws BusinessException {
+    private CurrencyUnit parseCurrency(String currency) throws AppException {
         String[] supportedCurrency = AppContext.getInstance().getSupportedCurrency();
         currency = currency.trim();
         boolean isSupported = false;
@@ -91,7 +106,9 @@ public class CurrencyCheck {
         }
 
         if (!isSupported) {
-            throw new BusinessException(ErrorCode.ErrorCode_3001, ", expected: " + Arrays.toString(supportedCurrency) + " actual: " + currency);
+            AppException exp = new BusinessException(ErrorCode.ErrorCode_3001, " expected: " + Arrays.toString(supportedCurrency) + " actual: " + currency);
+            logger.error(exp);
+            throw exp;
         }
         CurrencyUnit cUnit = Monetary.getCurrency(currency);
 
@@ -113,4 +130,5 @@ public class CurrencyCheck {
                         .set("pattern", "0.0000")
                         .build());
     }
+
 }
