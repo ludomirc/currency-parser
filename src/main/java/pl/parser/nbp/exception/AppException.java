@@ -8,7 +8,7 @@ public class AppException extends Exception {
     protected ErrorCode errorCode;
 
     public AppException(ErrorCode errorCode, String message) {
-        super("message: " + message + ", " + errorCode.getMessage());
+        super(errorCode.getMessage() + " ,message: " + message);
         this.errorCode = errorCode;
     }
 
@@ -20,6 +20,11 @@ public class AppException extends Exception {
     public AppException(String message, Throwable cause) {
         super(message, cause);
         extractErrorCode(cause);
+    }
+
+    public AppException(Throwable cause, ErrorCode errorCode, String message) {
+        super(message, cause);
+        this.errorCode = errorCode;
     }
 
     public AppException(Throwable cause) {

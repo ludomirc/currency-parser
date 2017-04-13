@@ -131,7 +131,11 @@ public class AppContext {
     }
 
     public void setSupportedCurrency(String supportedCurrency) {
-        setSupportedCurrency(supportedCurrency.split(","));
+        String cArray[] = supportedCurrency.split(",");
+        for (int i = 0; i < cArray.length; i++) {
+            cArray[i] = cArray[i].trim();
+        }
+        setSupportedCurrency(cArray);
     }
 
     public String getCurrencyLocale() {

@@ -20,4 +20,8 @@ public class TechnicalException extends AppException {
     public TechnicalException(Throwable cause) {
         super(cause);
     }
+
+    public TechnicalException(Throwable cause, ErrorCode errorCode_2003, String s) {
+        super(cause, errorCode_2003, s);
+    }
 }
