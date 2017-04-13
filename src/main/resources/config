@@ -1,0 +1,8 @@
+#currency provider
+currency_provider_name = NBP
+#currency provider uri
+currency_provider_uri =  http://www.nbp.pl/kursy/xml
+#supported currency
+supported_currency = USD, EUR, CHF, GBP
+#currency locale
+currency_locale = PLN
