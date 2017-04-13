@@ -2,6 +2,7 @@ package pl.parser.nbp.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.parser.nbp.exception.AppException;
 
 import java.io.File;
 
@@ -17,13 +18,14 @@ public class DataFileProxy extends AbstractDataFile {
     }
 
     @Override
-    public File getFile() {
+    public File getFile() throws AppException {
 
         logger.debug("begin");
 
         if (!isInLocalCache()) {
             getFileFromLocalCache();
             if (!isInLocalCache()) {
+
                 RemoteDataFile remoteFile = new RemoteDataFile(getFileName(), getCachePath());
                 File rFile = remoteFile.getFile();
                 setLocalFile(rFile);
@@ -38,6 +40,5 @@ public class DataFileProxy extends AbstractDataFile {
         LocalDataFile localDFile = new LocalDataFile(getFileName(), getCachePath());
         setLocalFile(localDFile.getFile());
     }
-
 
 }

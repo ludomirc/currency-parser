@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.parser.nbp.TUtil;
+import pl.parser.nbp.exception.AppException;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -45,7 +46,7 @@ public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
     }
 
     @Test
-    public void testGetDataFiles() throws Exception {
+    public void testGetDataFiles() throws AppException {
         logger.info("begin");
         ExchangeRateDaoImpl rateDao = new ExchangeRateDaoImpl();
         List<File> catalogs = (List<File>) rateDao.getCatalogs(start, end);
@@ -60,12 +61,12 @@ public class ExchangeRateDaoImplTest extends ExchangeRateDaoImpl {
         }
 
 
-        catalogs.forEach(catalog -> {
-            Collection<File> dataFile = rateDao.getDataFilesByTableType(catalog, start, end, 'c');
+        for (File elCatalog : catalogs) {
+            Collection<File> dataFile = rateDao.getDataFilesByTableType(elCatalog, start, end, 'c');
             dataFile.forEach(dFile -> {
                 Assert.assertTrue(expectedFileName.contains(dFile.getName()));
             });
-        });
+        }
         logger.info("file names test: passed");
 
         logger.info("end");

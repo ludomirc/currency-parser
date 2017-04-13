@@ -7,6 +7,7 @@ import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.AppException;
+import pl.parser.nbp.exception.TechnicalException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -94,7 +95,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
     }
 
 
-    protected Collection<File> getCatalogs(LocalDate startDate, LocalDate endDate) {
+    protected Collection<File> getCatalogs(LocalDate startDate, LocalDate endDate) throws AppException {
         logger.debug("begin");
 
         //!todo remove hardcoded initialization parameter, maybe mow to factory
@@ -112,7 +113,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         return catalogList;
     }
 
-    protected Collection<File> getDataFilesByTableType(File catalog, LocalDate from, LocalDate to, char tableType) {
+    protected Collection<File> getDataFilesByTableType(File catalog, LocalDate from, LocalDate to, char tableType) throws AppException {
         logger.debug("begin");
 
         //!todo remove hardcoded initialization parameter, maybe mow to factory
@@ -143,9 +144,11 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
             }
         } catch (FileNotFoundException e) {
             //!todo throw expection
-            logger.warn(e);
+            logger.error(e);
+            throw new TechnicalException(e);
         } catch (IOException e) {
-            logger.warn(e);
+            logger.error(e);
+            throw new TechnicalException(e);
         }
 
         logger.debug("end");

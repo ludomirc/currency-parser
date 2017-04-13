@@ -2,6 +2,8 @@ package pl.parser.nbp.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.parser.nbp.exception.AppException;
+import pl.parser.nbp.exception.TechnicalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class RemoteDataFile extends AbstractDataFile {
     }
 
     @Override
-    public File getFile() {
+    public File getFile() throws AppException {
         logger.debug("begin");
         logger.debug("try obtain file from: " + getUri() + "/" + getFileName() + " and write to local cache");
         String fullUri = nbpUri + getFileName();
@@ -53,8 +55,8 @@ public class RemoteDataFile extends AbstractDataFile {
             localCopy = destination.toFile();
             setLocalFile(localCopy);
         } catch (IOException e) {
-            //!todo if file not exist throw technical exception
-            logger.warn(e);
+            logger.error(e);
+            throw new TechnicalException(e);
         }
 
         logger.debug("end");

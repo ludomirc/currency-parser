@@ -1,5 +1,7 @@
 package pl.parser.nbp.dao;
 
+import pl.parser.nbp.exception.AppException;
+
 import java.io.File;
 
 /**
@@ -7,7 +9,7 @@ import java.io.File;
  */
 public interface DataFile {
 
-    File getFile();
+    File getFile() throws AppException;
 
     boolean isExist();
 }

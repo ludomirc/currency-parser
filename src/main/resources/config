@@ -1,3 +1,5 @@
+#app cache path
+cache_path = /cache
 #currency provider
 currency_provider_name = NBP
 #currency provider uri
