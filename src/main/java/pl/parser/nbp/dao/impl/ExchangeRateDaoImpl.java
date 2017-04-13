@@ -2,6 +2,7 @@ package pl.parser.nbp.dao.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.parser.nbp.AppContext;
 import pl.parser.nbp.dao.ExchangeRateDao;
 import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
@@ -98,13 +99,10 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
     protected Collection<File> getCatalogs(LocalDate startDate, LocalDate endDate) throws AppException {
         logger.debug("begin");
 
-        //!todo remove hardcoded initialization parameter, maybe mow to factory
-        String cache = "cache/";
-
         DataFileProxy dirProxy = null;
         List<File> catalogList = new LinkedList<File>();
         for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1L)) {
-            dirProxy = new DataFileProxy(FileUtil.toDirFileName(dirDate), cache);
+            dirProxy = AppContext.factoryDataFileProxy(FileUtil.toDirFileName(dirDate));
             File dir = dirProxy.getFile();
             catalogList.add(dir);
         }
@@ -115,9 +113,6 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
 
     protected Collection<File> getDataFilesByTableType(File catalog, LocalDate from, LocalDate to, char tableType) throws AppException {
         logger.debug("begin");
-
-        //!todo remove hardcoded initialization parameter, maybe mow to factory
-        String cache = "cache/";
 
         List<File> dataFiles = new LinkedList<File>();
         DataFileProxy dFileProxy = null;
@@ -135,7 +130,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                         mFile = FileUtil.toMetaFile(line);
                         if (isDataInRange(from, to, mFile.getData())) {
 
-                            dFileProxy = new DataFileProxy(mFile.getName(), cache);
+                            dFileProxy = AppContext.factoryDataFileProxy(mFile.getName());
                             file = dFileProxy.getFile();
                             dataFiles.add(file);
                         }
@@ -143,7 +138,6 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                 }
             }
         } catch (FileNotFoundException e) {
-            //!todo throw expection
             logger.error(e);
             throw new TechnicalException(e);
         } catch (IOException e) {

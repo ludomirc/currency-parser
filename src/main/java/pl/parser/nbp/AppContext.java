@@ -2,6 +2,7 @@ package pl.parser.nbp;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.parser.nbp.dao.impl.DataFileProxy;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,6 +76,11 @@ public class AppContext {
         logger.info("end");
     }
 
+
+    public static DataFileProxy factoryDataFileProxy(String file) {
+        return new DataFileProxy(file, getInstance().cachePath);
+    }
+
     public String getCachePath() {
         return cachePath;
     }
@@ -106,13 +112,13 @@ public class AppContext {
         return SupportedCurrency;
     }
 
+    public void setSupportedCurrency(String supportedCurrency) {
+        setSupportedCurrency(supportedCurrency.split(","));
+    }
+
     public void setSupportedCurrency(String[] supportedCurrency) {
         logger.info("supported currency: " + Arrays.toString(supportedCurrency));
         SupportedCurrency = supportedCurrency;
-    }
-
-    public void setSupportedCurrency(String supportedCurrency) {
-        setSupportedCurrency(supportedCurrency.split(","));
     }
 
     public String getCurrencyLocale() {
