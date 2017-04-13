@@ -1,6 +1,5 @@
 package pl.parser.nbp;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javamoney.moneta.format.CurrencyStyle;
@@ -27,26 +26,44 @@ public class MainClass {
     private static Logger logger = LogManager.getLogger(MainClass.class.getName());
 
     public static void main(String[] args) throws AppException {
+/**
+ * Uruchomienie programu z przykładowymi poprawnymi danymi wejściowymi:
+ java pl.parser.nbp.MainClass EUR 2013-01-28 2013-01-31
+
+ Poprawne dane wyjściowe dla powyżej przedstawionego przykładowego wywołania:
+ 4,1505
+ 0,0125
+ Opis danych wejściowych i wyjściowych:
+ EUR › kod waluty
+ 2013-01-28 › data początkowa
+ 2012-01-31 › data końcowa
+ 4,1505 › średni kurs kupna
+ 0,0125 › odchylenie standardowe kursów sprzedaży
+ */
 
 
-//        MonetaryAmount amount = Monetary.getDefaultAmountFactory().setCurrency("PLN").setNumber(10).create();
-
-
-        //amount.pow 2013-01-28 2013-01-31
 
         ExchangeRateDaoImpl exchangeRateDao = new ExchangeRateDaoImpl();
         //2013-01-28 2013-01-31
+/*
         LocalDate start = LocalDate.parse("2013-01-28");
         LocalDate end = LocalDate.parse("2013-01-31");
+*/
+
+
+        LocalDate start = LocalDate.parse("2013-01-20");
+        LocalDate end = LocalDate.parse("2013-01-20");
+
 
         Collection<CurrencyEntry> cEntries = exchangeRateDao.getExchangeRate(start, end, "EUR");
 
-
         //arithmetic average
         MonetaryAmount xBuyingRate = null;
-
         CurrencyUnit plnUnit = Monetary.getCurrency("PLN");
         xBuyingRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.BUY, plnUnit);
+
+        MonetaryAmount xSaleRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.SALE, plnUnit);
+        MonetaryAmount s = MarketUtil.getStandardDeviation(cEntries, xSaleRate, MarketUtil.OperationType.SALE);
 
         MonetaryAmountFormat customFormat = MonetaryFormats.getAmountFormat(
                 AmountFormatQueryBuilder.of(new Locale("pl"))
@@ -54,13 +71,9 @@ public class MainClass {
                         .set("pattern", "0.0000")
                         .build());
 
-        MonetaryAmount xSaleRate = MarketUtil.getArithmeticAverage(cEntries, MarketUtil.OperationType.SALE, plnUnit);
-        MonetaryAmount s = MarketUtil.getStandardDeviation(cEntries, xSaleRate, MarketUtil.OperationType.SALE);
-
         System.out.println("Srednia arytmetyczna x: " + customFormat.format(xBuyingRate) + " " + xBuyingRate.getNumber());
         System.out.println("odchylenie standardowe s: " + customFormat.format(s) + " " + s.getNumber());
     }
-
 
 }
 
