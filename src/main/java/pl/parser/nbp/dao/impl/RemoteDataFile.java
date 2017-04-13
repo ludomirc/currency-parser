@@ -19,22 +19,18 @@ import java.nio.file.StandardCopyOption;
  */
 public class RemoteDataFile extends AbstractDataFile {
 
-
     private final Logger logger = LogManager.getLogger(RemoteDataFile.class.getName());
-    /**
-     * !todo - remove to configuration file or factory
-     */
-    String nbpUri = "http://www.nbp.pl/kursy/xml/";
 
-    public RemoteDataFile(String dirFileName, String cachePath) {
-        super(dirFileName, cachePath);
+
+    public RemoteDataFile(String dirFileName, String cachePath, String currencyProviderUri) {
+        super(dirFileName, cachePath, currencyProviderUri);
     }
 
     @Override
     public File getFile() throws AppException {
         logger.debug("begin");
-        logger.debug("try obtain file from: " + getUri() + "/" + getFileName() + " and write to local cache");
-        String fullUri = nbpUri + getFileName();
+        logger.debug("try obtain file from: " + getCurrencyProviderUri() + getFileName() + " and write to local cache");
+        String fullUri = getCurrencyProviderUri() + getFileName();
 
         Path destination = null;
         URI dirUri = URI.create(fullUri);
@@ -61,9 +57,5 @@ public class RemoteDataFile extends AbstractDataFile {
 
         logger.debug("end");
         return localCopy;
-    }
-
-    protected String getUri() {
-        return nbpUri;
     }
 }

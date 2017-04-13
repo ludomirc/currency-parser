@@ -26,7 +26,8 @@ public class DataFileProxyTest {
         LocalDate date = LocalDate.parse("1990-01-28");
         String dirName = FileUtil.toDirFileName(date);
 
-        DataFile dataFile = new DataFileProxy(dirName, cacheLocation);
+        String nbpUri = "http://www.nbp.pl/kursy/xml/";
+        DataFile dataFile = new DataFileProxy(dirName, cacheLocation, nbpUri);
 
         try {
             dataFile.getFile();
@@ -47,7 +48,7 @@ public class DataFileProxyTest {
         //file exist on server but not is in cache, download test
         date = LocalDate.parse("2014-01-28");
         dirName = FileUtil.toDirFileName(date);
-        dataFile = new RemoteDataFile(dirName, cacheLocation);
+        dataFile = new RemoteDataFile(dirName, cacheLocation, nbpUri);
 
         message = "File can not be null";
         Assert.assertNotNull(dataFile.getFile(), message);

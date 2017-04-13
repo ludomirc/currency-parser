@@ -13,8 +13,8 @@ public class DataFileProxy extends AbstractDataFile {
 
     private Logger logger = LogManager.getLogger(DataFileProxy.class.getName());
 
-    public DataFileProxy(String fileName, String cachePath) {
-        super(fileName, cachePath);
+    public DataFileProxy(String fileName, String cachePath, String currencyProviderUri) {
+        super(fileName, cachePath, currencyProviderUri);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class DataFileProxy extends AbstractDataFile {
             getFileFromLocalCache();
             if (!isInLocalCache()) {
 
-                RemoteDataFile remoteFile = new RemoteDataFile(getFileName(), getCachePath());
+                RemoteDataFile remoteFile = new RemoteDataFile(getFileName(), getCachePath(), getCurrencyProviderUri());
                 File rFile = remoteFile.getFile();
                 setLocalFile(rFile);
             }

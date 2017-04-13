@@ -78,7 +78,7 @@ public class AppContext {
 
 
     public static DataFileProxy factoryDataFileProxy(String file) {
-        return new DataFileProxy(file, getInstance().cachePath);
+        return new DataFileProxy(file, getInstance().cachePath, getInstance().getCurrencyProviderURI());
     }
 
     public String getCachePath() {

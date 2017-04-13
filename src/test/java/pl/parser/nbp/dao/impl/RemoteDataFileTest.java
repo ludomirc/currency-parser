@@ -16,17 +16,18 @@ public class RemoteDataFileTest {
 
     private final Logger logger = LogManager.getLogger(RemoteDataFileTest.class.getName());
 
+    String cacheLocation = "src/test/resources/cache/";
+    String nbpUri = "http://www.nbp.pl/kursy/xml/";
+
     @Test
     public void testGetFile() throws Exception {
 
         logger.info("begin");
 
-        String cacheLocation = "src/test/resources/cache/";
-
         //file exist on server
         LocalDate date = LocalDate.parse("2014-01-28");
         String dirName = FileUtil.toDirFileName(date);
-        RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
+        RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation, nbpUri);
 
         String message = "File can not be null, ";
         Assert.assertNotNull(dataFile.getFile(), message);
@@ -42,13 +43,11 @@ public class RemoteDataFileTest {
     @Test(expectedExceptions = {TechnicalException.class})
     public void throwIfOrderIsNotExists() throws AppException {
 
-        String cacheLocation = "src/test/resources/cache/";
-
         //file not exist on remote location
         LocalDate date = LocalDate.parse("1990-01-28");
         String dirName = FileUtil.toDirFileName(date);
 
-        RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation);
+        RemoteDataFile dataFile = new RemoteDataFile(dirName, cacheLocation, nbpUri);
 
         dataFile.getFile();
 

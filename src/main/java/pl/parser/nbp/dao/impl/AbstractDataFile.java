@@ -12,10 +12,17 @@ public abstract class AbstractDataFile implements DataFile {
     private File localFile;
     private String fileName;
     private String cachePath;
+    private String currencyProviderUri;
 
     AbstractDataFile(String fileName, String cachePath) {
         this.fileName = fileName;
         this.cachePath = cachePath;
+    }
+
+    AbstractDataFile(String fileName, String cachePath, String currencyProviderUri) {
+        this.fileName = fileName;
+        this.cachePath = cachePath;
+        this.currencyProviderUri = currencyProviderUri;
     }
 
     protected String getLocalPath() {
@@ -56,6 +63,14 @@ public abstract class AbstractDataFile implements DataFile {
 
     protected void setCachePath(String cachePath) {
         this.cachePath = cachePath;
+    }
+
+    public String getCurrencyProviderUri() {
+        return currencyProviderUri;
+    }
+
+    public void setCurrencyProviderUri(String currencyProviderUri) {
+        this.currencyProviderUri = currencyProviderUri;
     }
 
     @Override
