@@ -8,7 +8,7 @@ public class AppException extends Exception {
     protected ErrorCode errorCode;
 
     public AppException(ErrorCode errorCode, String message) {
-        super(errorCode.getMessage() + " ,message: " + message);
+        super(errorCode.getCodeId() + ", " + errorCode.getMessage() + ", message: " + message);
         this.errorCode = errorCode;
     }
 

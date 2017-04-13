@@ -41,8 +41,8 @@ public class CurrencyCheck {
 
     public void checkRate(String[] args) throws AppException {
 
-        if (args.length != 3) {
-            AppException exp = new TechnicalException(ErrorCode.ErrorCode_2002, ": expected 3, actual:" + args.length);
+        if (args == null || args.length != 3) {
+            AppException exp = new TechnicalException(ErrorCode.ErrorCode_2002, ": expected 3, actual: " + args.length);
             logger.error(exp);
             throw exp;
         }
