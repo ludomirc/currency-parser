@@ -1,5 +1,8 @@
 package pl.parser.nbp.service;
 
+import pl.parser.nbp.exception.AppException;
+
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,9 +12,11 @@ import java.time.LocalDate;
  */
 public interface CurrencyService extends Serializable {
 
-    MonetaryAmount averagePurchaseRate(LocalDate begin, LocalDate end, String currency);
+    public MonetaryAmount getAverageBuyRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException;
 
-    MonetaryAmount averageSalesRates(LocalDate begin, LocalDate end, String currency);
+    public MonetaryAmount getAverageSalesRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException;
 
-    MonetaryAmount standardDeviationSalesRates(LocalDate begin, LocalDate end, String currency);
+    public MonetaryAmount getBuyRateStandardDeviation(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException;
+
+    public MonetaryAmount getSalesRateStandardDeviation(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException;
 }

@@ -2,8 +2,14 @@ package pl.parser.nbp;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.parser.nbp.dao.ExchangeRateDao;
 import pl.parser.nbp.dao.impl.DataFileProxy;
+import pl.parser.nbp.dao.impl.ExchangeRateDaoImpl;
+import pl.parser.nbp.service.CurrencyService;
+import pl.parser.nbp.service.impl.CurrencyServiceImpl;
 
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -18,10 +24,10 @@ public class AppContext {
     private static AppContext instance = null;
     private String configFilePath = "/config";
     private String cachePath = "cache/";
-    private String CurrencyProviderName = "NBP";
-    private String CurrencyProviderURI = "http://www.nbp.pl/kursy/xml";
-    private String[] SupportedCurrency = new String[]{"USD", "EUR", "CHF", "GBP"};
-    private String CurrencyLocale = "PLN";
+    private String currencyProviderName = "NBP";
+    private String currencyProviderURI = "http://www.nbp.pl/kursy/xml";
+    private String[] supportedCurrency = new String[]{"USD", "EUR", "CHF", "GBP"};
+    private String currencyLocale = "PLN";
 
     private AppContext() {
     }
@@ -81,6 +87,13 @@ public class AppContext {
         return new DataFileProxy(file, getInstance().cachePath, getInstance().getCurrencyProviderURI());
     }
 
+    public static CurrencyService factoryCurrencyService() {
+        ExchangeRateDao rateDao = new ExchangeRateDaoImpl();
+        CurrencyUnit localUnit = Monetary.getCurrency(getInstance().currencyLocale);
+
+        return new CurrencyServiceImpl(rateDao, localUnit);
+    }
+
     public String getCachePath() {
         return cachePath;
     }
@@ -91,30 +104,30 @@ public class AppContext {
     }
 
     public String getCurrencyProviderName() {
-        return CurrencyProviderName;
+        return currencyProviderName;
     }
 
     public void setCurrencyProviderName(String currencyProviderName) {
         logger.info("currency provider name: " + currencyProviderName);
-        CurrencyProviderName = currencyProviderName;
+        this.currencyProviderName = currencyProviderName;
     }
 
     public String getCurrencyProviderURI() {
-        return CurrencyProviderURI;
+        return currencyProviderURI;
     }
 
     public void setCurrencyProviderURI(String currencyProviderURI) {
         logger.info("currency provider URI: " + currencyProviderURI);
-        CurrencyProviderURI = currencyProviderURI;
+        this.currencyProviderURI = currencyProviderURI;
     }
 
     public String[] getSupportedCurrency() {
-        return SupportedCurrency;
+        return supportedCurrency;
     }
 
     public void setSupportedCurrency(String[] supportedCurrency) {
         logger.info("supported currency: " + Arrays.toString(supportedCurrency));
-        SupportedCurrency = supportedCurrency;
+        this.supportedCurrency = supportedCurrency;
     }
 
     public void setSupportedCurrency(String supportedCurrency) {
@@ -122,12 +135,12 @@ public class AppContext {
     }
 
     public String getCurrencyLocale() {
-        return CurrencyLocale;
+        return currencyLocale;
     }
 
     public void setCurrencyLocale(String currencyLocale) {
         logger.info("currency locale: " + currencyLocale);
-        CurrencyLocale = currencyLocale;
+        this.currencyLocale = currencyLocale;
     }
 
     public enum ConfigParameter {
