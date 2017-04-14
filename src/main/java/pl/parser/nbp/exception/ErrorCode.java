@@ -9,10 +9,11 @@ public enum ErrorCode {
 
 
     //Technical ErrorCode
-    ErrorCode_2000("Sample technical error message", 2000),
-    ErrorCode_2001("Directory not found exception", 2001),
-    ErrorCode_2002("Wrong number of input parameters", 2002),
-    ErrorCode_2003("Not supported date format", 2003),
+    ErrorCode_2000("sample technical error message", 2000),
+    ErrorCode_2001("directory not found exception", 2001),
+    ErrorCode_2002("wrong number of input parameters", 2002),
+    ErrorCode_2003("not supported date format", 2003),
+    ErrorCode_2004("network or remote host issue", 2004),
 
     //Business ErrorCode
     ErrorCode_3000("sample business error message", 3000),
