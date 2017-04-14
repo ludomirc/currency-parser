@@ -105,6 +105,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
         List<File> catalogList = new LinkedList<File>();
         File dir = null;
         for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1L)) {
+
             if (endDate.getYear() == LocalDate.now().getYear()) {
                 dirProxy = AppContext.factoryDataFileProxy("dir.txt");
                 try {
@@ -120,6 +121,7 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                 }
                 catalogList.add(dir);
             } else {
+
                 dirProxy = AppContext.factoryDataFileProxy(FileUtil.toDirFileName(dirDate));
                 dir = dirProxy.getFile();
                 catalogList.add(dir);
