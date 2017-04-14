@@ -20,4 +20,8 @@ public class BusinessException extends AppException {
     public BusinessException(Throwable cause) {
         super(cause);
     }
+
+    public BusinessException(Throwable cause, ErrorCode errorCode, String message) {
+        super(cause, errorCode, message);
+    }
 }
