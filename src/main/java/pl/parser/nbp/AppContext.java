@@ -25,7 +25,7 @@ public class AppContext {
     private String configFilePath = "/config";
     private String cachePath = "cache/";
     private String currencyProviderName = "NBP";
-    private String currencyProviderURI = "http://www.nbp.pl/kursy/xml";
+    private String currencyProviderURI = "http://www.nbp.pl/kursy/xml/";
     private String[] supportedCurrency = new String[]{"USD", "EUR", "CHF", "GBP"};
     private String currencyLocale = "PLN";
 
@@ -125,17 +125,17 @@ public class AppContext {
         return supportedCurrency;
     }
 
+    public void setSupportedCurrency(String[] supportedCurrency) {
+        logger.info("supported currency: " + Arrays.toString(supportedCurrency));
+        this.supportedCurrency = supportedCurrency;
+    }
+
     public void setSupportedCurrency(String supportedCurrency) {
         String cArray[] = supportedCurrency.split(",");
         for (int i = 0; i < cArray.length; i++) {
             cArray[i] = cArray[i].trim();
         }
         setSupportedCurrency(cArray);
-    }
-
-    public void setSupportedCurrency(String[] supportedCurrency) {
-        logger.info("supported currency: " + Arrays.toString(supportedCurrency));
-        this.supportedCurrency = supportedCurrency;
     }
 
     public String getCurrencyLocale() {
