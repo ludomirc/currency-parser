@@ -8,6 +8,8 @@ import pl.parser.nbp.domain.CurrencyCourseTable;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.domain.MetaFile;
 import pl.parser.nbp.exception.AppException;
+import pl.parser.nbp.exception.BusinessException;
+import pl.parser.nbp.exception.ErrorCode;
 import pl.parser.nbp.exception.TechnicalException;
 
 import javax.xml.bind.JAXBContext;
@@ -101,11 +103,29 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
 
         DataFileProxy dirProxy = null;
         List<File> catalogList = new LinkedList<File>();
+        File dir = null;
         for (LocalDate dirDate = LocalDate.parse(startDate.toString()); dirDate.getYear() <= endDate.getYear(); dirDate = dirDate.plusYears(1L)) {
-            dirProxy = AppContext.factoryDataFileProxy(FileUtil.toDirFileName(dirDate));
-            File dir = dirProxy.getFile();
-            catalogList.add(dir);
+            if (endDate.getYear() == LocalDate.now().getYear()) {
+                dirProxy = AppContext.factoryDataFileProxy("dir.txt");
+                try {
+                    dir = dirProxy.getFile();
+                } catch (TechnicalException ex) {
+                    //special case, catalog has not yet been issued
+                    Throwable parent = ex;
+                    if (parent instanceof FileNotFoundException) {
+                        BusinessException bx = new BusinessException(parent, ErrorCode.ErrorCode_3002, " pleas try later");
+                        logger.error(bx);
+                        throw bx;
+                    }
+                }
+                catalogList.add(dir);
+            } else {
+                dirProxy = AppContext.factoryDataFileProxy(FileUtil.toDirFileName(dirDate));
+                dir = dirProxy.getFile();
+                catalogList.add(dir);
+            }
         }
+
 
         logger.debug("end");
         return catalogList;
