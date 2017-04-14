@@ -23,7 +23,7 @@ public class AppException extends Exception {
     }
 
     public AppException(Throwable cause, ErrorCode errorCode, String message) {
-        super(message, cause);
+        super(errorCode.getCodeId() + ", " + errorCode.getMessage() + ", message: " + message, cause);
         this.errorCode = errorCode;
     }
 
