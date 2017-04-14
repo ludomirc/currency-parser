@@ -7,6 +7,7 @@ import pl.parser.nbp.dao.ExchangeRateDao;
 import pl.parser.nbp.domain.CurrencyEntry;
 import pl.parser.nbp.exception.AppException;
 import pl.parser.nbp.exception.BusinessException;
+import pl.parser.nbp.exception.ErrorCode;
 import pl.parser.nbp.service.CurrencyService;
 
 import javax.money.CurrencyUnit;
@@ -31,7 +32,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public MonetaryAmount getAverageBuyRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws BusinessException {
+    public MonetaryAmount getAverageBuyRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException {
         logger.debug("begin");
         MonetaryAmount average = getCurrencyArithmeticAverage(begin, end, currency, MarketOperationTypeEnum.BUY);
         logger.debug("end");
@@ -39,7 +40,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public MonetaryAmount getAverageSalesRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws BusinessException {
+    public MonetaryAmount getAverageSalesRate(LocalDate begin, LocalDate end, CurrencyUnit currency) throws AppException {
         logger.debug("begin");
         MonetaryAmount average = getCurrencyArithmeticAverage(begin, end, currency, MarketOperationTypeEnum.SALE);
         logger.debug("end");
@@ -67,8 +68,12 @@ public class CurrencyServiceImpl implements CurrencyService {
         Collection<CurrencyEntry> cEntries = null;
         try {
             cEntries = rateDao.getExchangeRate(begin, end, currency.toString());
+            if (cEntries.size() == 0) {
+                throw new BusinessException(ErrorCode.ErrorCode_3005, " start date: " + end + " end data:" + end);
+            }
         } catch (AppException e) {
-            e.printStackTrace();
+            logger.error(e);
+            throw e;
         }
         MonetaryAmount average = getArithmeticAverage(cEntries, operationType, localUnit);
         MonetaryAmount sDeviation = getStandardDeviation(cEntries, average, operationType);
@@ -76,13 +81,17 @@ public class CurrencyServiceImpl implements CurrencyService {
         return sDeviation;
     }
 
-    protected MonetaryAmount getCurrencyArithmeticAverage(LocalDate begin, LocalDate end, CurrencyUnit currency, MarketOperationTypeEnum operationType) throws BusinessException {
+    protected MonetaryAmount getCurrencyArithmeticAverage(LocalDate begin, LocalDate end, CurrencyUnit currency, MarketOperationTypeEnum operationType) throws AppException {
         logger.debug("begin");
         Collection<CurrencyEntry> cEntries = null;
         try {
             cEntries = rateDao.getExchangeRate(begin, end, currency.toString());
+            if (cEntries.size() == 0) {
+                throw new BusinessException(ErrorCode.ErrorCode_3005, " start date: " + end + " end data:" + end);
+            }
         } catch (AppException e) {
-            e.printStackTrace();
+            logger.error(e);
+            throw e;
         }
         MonetaryAmount average = getArithmeticAverage(cEntries, operationType, localUnit);
         logger.debug("end");

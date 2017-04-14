@@ -19,10 +19,12 @@ public enum ErrorCode {
     ErrorCode_3001("not supported currency", 3001),
     ErrorCode_3002("absence of a issue of a currency rate for given period", 3002),
     ErrorCode_3003("bad date sequence", 3003),
-    ErrorCode_3004("date is set in future", 3003),
+    ErrorCode_3004("date is set in future", 3004),
+    ErrorCode_3005("no such a data for the specific period", 3005),
+
     //Spec code
     ErrorCode_0001("under construction", 1),
-    ErrorCode_0002("not yest implanted", 1);
+    ErrorCode_0002("not yest implanted", 2);
 
     private String message;
     private int id;

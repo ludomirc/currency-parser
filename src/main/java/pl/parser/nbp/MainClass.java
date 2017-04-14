@@ -14,16 +14,19 @@ public class MainClass {
     public static void main(String[] args) throws AppException {
         AppContext.loadConfig();
         CurrencyCheck converter = new CurrencyCheck();
-        String[] arg = new String[]{"EUR", "2013-01-28", "2013-01-31"};
+        String[] arg = new String[]{"EUR", "2013-01-20", "2013-01-20"};
+        //String[] arg = new String[]{"EUR", "2013-01-28", "2013-01-31"};
         converter.checkRate(arg);
     }
 
     private static void back() throws AppException {
         /**
-         !todo brak notowanie na tą daę, dobry przykład żeby sprawdzić busines expection
-
          LocalDate start = LocalDate.parse("2013-01-20");
          LocalDate end = LocalDate.parse("2013-01-20");
+
+         !todo rok bierzący
+         !todo ostatnie notowanie
+
          */
     }
 
