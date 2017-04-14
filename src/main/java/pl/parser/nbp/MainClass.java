@@ -12,22 +12,9 @@ public class MainClass {
     private static Logger logger = LogManager.getLogger(MainClass.class.getName());
 
     public static void main(String[] args) throws AppException {
+        logger.info("app start");
         AppContext.loadConfig();
         CurrencyCheck converter = new CurrencyCheck();
-        String[] arg = new String[]{"EUR", "2013-01-20", "2013-01-20"};
-        //String[] arg = new String[]{"EUR", "2013-01-28", "2013-01-31"};
-        converter.checkRate(arg);
+        converter.checkRate(args);
     }
-
-    private static void back() throws AppException {
-        /**
-         LocalDate start = LocalDate.parse("2013-01-20");
-         LocalDate end = LocalDate.parse("2013-01-20");
-
-         !todo rok bierzący
-         !todo ostatnie notowanie
-
-         */
-    }
-
 }
