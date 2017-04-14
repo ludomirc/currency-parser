@@ -83,8 +83,8 @@ public class AppContext {
     }
 
 
-    public static DataFileProxy factoryDataFileProxy(String file) {
-        return new DataFileProxy(file, getInstance().cachePath, getInstance().getCurrencyProviderURI());
+    public static DataFileProxy factoryDataFileProxy(String fileName) {
+        return new DataFileProxy(fileName, getInstance().cachePath, getInstance().getCurrencyProviderURI());
     }
 
     public static CurrencyService factoryCurrencyService() {
@@ -125,17 +125,17 @@ public class AppContext {
         return supportedCurrency;
     }
 
-    public void setSupportedCurrency(String[] supportedCurrency) {
-        logger.info("supported currency: " + Arrays.toString(supportedCurrency));
-        this.supportedCurrency = supportedCurrency;
-    }
-
     public void setSupportedCurrency(String supportedCurrency) {
         String cArray[] = supportedCurrency.split(",");
         for (int i = 0; i < cArray.length; i++) {
             cArray[i] = cArray[i].trim();
         }
         setSupportedCurrency(cArray);
+    }
+
+    public void setSupportedCurrency(String[] supportedCurrency) {
+        logger.info("supported currency: " + Arrays.toString(supportedCurrency));
+        this.supportedCurrency = supportedCurrency;
     }
 
     public String getCurrencyLocale() {
