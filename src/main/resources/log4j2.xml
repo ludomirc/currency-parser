@@ -4,13 +4,16 @@
         <File name="applogFile" fileName="applog.log" append="false">
             <PatternLayout pattern='%d{HH:mm:ss.SSS} [%t]  %-5level %logger{36} - %M - %msg%n'/>
         </File>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern='%d{HH:mm:ss.SSS} [%t]  %-5level %logger{36} - %M - %msg%n'/>
+        </Console>
     </appenders>
     <loggers>
-        <Logger name="org.apache.log4j.xml" level="info">
-            <AppenderRef ref="applogFile"/>
-        </Logger>
         <Root level="info">
             <AppenderRef ref="applogFile"/>
+        </Root>
+        <Root level="off">
+            <AppenderRef ref="console"/>
         </Root>
     </loggers>
 </configuration>
