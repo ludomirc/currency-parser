@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -159,12 +160,18 @@ public class ExchangeRateDaoImpl implements ExchangeRateDao {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            logger.error(e);
-            throw new TechnicalException(e);
+        } catch (FileNotFoundException | NullPointerException ex) {
+            TechnicalException te = new TechnicalException(ex, ErrorCode.ErrorCode_2004, "network or remote host is unreachable");
+            logger.error(te);
+            throw te;
+        } catch (UnknownHostException ehx) {
+            TechnicalException te = new TechnicalException(ehx, ErrorCode.ErrorCode_2004, "network or remote host is unreachable");
+            logger.error(te);
+            throw te;
         } catch (IOException e) {
-            logger.error(e);
-            throw new TechnicalException(e);
+            TechnicalException te = new TechnicalException(e);
+            logger.error(te);
+            throw te;
         }
 
         logger.debug("end");
